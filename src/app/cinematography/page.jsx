@@ -5,35 +5,19 @@ import axios from 'axios';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useRouter } from 'next/navigation';
-
-import {Lightbox} from '@/components/pages/Photography/Lightbox';
 import CinematographyHeader from '@/components/pages/Cinematography/CinematographyHeader';
 import MediaGrid from '@/components/pages/Cinematography/MediaGrid ';
 import ScrollingFooter from '@/components/molecule/ScrollingCategory/ScrollingFooter';
 import ImageGallery from '@/components/pages/Blogs/ImageCollage';
 
-// Static images
-import f_img_1 from "../../assets/BrandInFrame/f-img-1.png";
-import f_img_2 from "../../assets/BrandInFrame/f-img-2.png";
-import f_img_3 from "../../assets/BrandInFrame/f-img-3.png";
-import f_img_4 from "../../assets/BrandInFrame/f-img-4.png";
-import f_img_5 from "../../assets/BrandInFrame/f-img-5.png";
-import f_img_6 from "../../assets/BrandInFrame/f-img-6.png";
-
-import cinematography_image1 from "../../assets/Cinematography/Cinematography-img-1.png";
-import cinematography_image2 from "../../assets/Cinematography/Cinematography-img-2.png";
-import cinematography_image3 from "../../assets/Cinematography/Cinematography-img-3.png";
-import cinematography_image4 from "../../assets/Cinematography/Cinematography-img-4.png";
-import cinematography_image5 from "../../assets/Cinematography/Cinematography-img-5.png";
-import cinematography_image6 from "../../assets/Cinematography/Cinematography-img-6.png";
 
 const categories = [
-  { key: "Brand in Frame", label: "Brand in Frame", staticImg: cinematography_image1 },
-  { key: "Self Initiated Stories", label: "Self Initiated Stories", staticImg: cinematography_image2 },
-  { key: "Couple", label: "Couple", staticImg: cinematography_image3 },
-  { key: "Food", label: "Food", staticImg: cinematography_image4 },
-  { key: "Event", label: "Event", staticImg: cinematography_image5 },
-  { key: "Fashion Photography", label: "Fashion Cinematography", staticImg: cinematography_image6 },
+  { key: "Brand in Frame", label: "Brand in Frame" },
+  { key: "Self Initiated Stories", label: "Self Initiated Stories" },
+  { key: "Couple", label: "Couple" },
+  { key: "Food", label: "Food"},
+  { key: "Event", label: "Event"},
+  { key: "Fashion Photography", label: "Fashion Cinematography" },
 ];
 
 const serviceLinks = {
@@ -75,12 +59,7 @@ const Cinematography = () => {
         };
       }
       // Always include static images for lightbox
-      return {
-        src: cat.staticImg,
-        type: 'image',
-        label: cat.label,
-        originalIndex: index,
-      };
+      
     })
     .filter(item => item.type === 'image'); // Only images in lightbox
 
