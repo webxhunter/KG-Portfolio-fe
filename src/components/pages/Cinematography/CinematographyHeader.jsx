@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import photoicon from "../../../assets/Photography/AbstractDesign.png";
+import photoicon from "../../../Assets/Photography/AbstractDesign.png";
 
 const CinematographyHeader = () => {
   return (
