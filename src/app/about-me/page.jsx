@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import AboutHero from '@/components/pages/About/AboutHero';
 import AboutKamal from '@/components/pages/About/AboutKamal';
 import ContactSection from "@/components/pages/Home/ContactSection";
+import ImageCollage from '@/components/pages/Blogs/ImageCollage';
 import ScrollingFooter from '@/components/molecule/ScrollingCategory/ScrollingFooter';
 
 const AboutPage = () => {
@@ -14,9 +15,7 @@ const AboutPage = () => {
   useEffect(() => {
     const fetchAboutData = async () => {
       try {
-        const API_URL = process.env.NEXT_PUBLIC_API_URL;
-        const response = await axios.get(`${API_URL}/api/about`);
-        console.log(response)
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/about`);
         setAboutData(response.data);
       } catch (error) {
         toast.error("Failed to load about page data.");
@@ -24,15 +23,17 @@ const AboutPage = () => {
         setLoading(false);
       }
     };
+
     fetchAboutData();
   }, []);
-console.log(aboutData)
+
   return (
     <div className="bg-black">
       <AboutHero about={aboutData} loading={loading} />
       <AboutKamal />
       <ContactSection />
-      <ScrollingFooter/>
+      <ScrollingFooter />
+      <ImageCollage/>
     </div>
   );
 };

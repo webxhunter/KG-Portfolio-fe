@@ -24,6 +24,15 @@ const OurService = () => {
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [error, setError] = useState('');
 
+  const serviceOption = [
+    "SELF INITIATED STORIES",
+    "WEDDING",
+    "REVEL & RHYTHM",
+    "FOOD",
+    "BRAND IN FRAME",
+    "FRAME WORTHY",
+  ]
+
   // API URL from environment variables
   const API_URL = process.env.NEXT_PUBLIC_API_URL || process.env.REACT_APP_API_URL;
 
@@ -201,11 +210,15 @@ const OurService = () => {
                   required
                 >
                   <option value="">Choose a service...</option>
-                  {services.map(s => (
-                    <option key={s.name} value={s.name}>
-                      {defaultTitles[s.name] || s.name}
-                    </option>
-                  ))}
+                  {serviceOption.map(title => {
+                    const key = Object.entries(defaultTitles).find(([k, v]) => v === title)?.[0]
+                      || title.toLowerCase().replace(/\s+|&/g, '_');
+                    return (
+                      <option key={key} value={key}>
+                        {title}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
 
