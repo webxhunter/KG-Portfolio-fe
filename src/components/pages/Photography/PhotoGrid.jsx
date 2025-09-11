@@ -34,7 +34,6 @@ export const PhotoGrid = ({ categories, images, onImageClick }) => {
     }, 1000);
   };
 
-  console.log("first", categories);
 
   return (
     <div className="grid grid-cols-12 auto-rows-[140px] gap-4 px-0 sm:px-4">
@@ -62,11 +61,6 @@ export const PhotoGrid = ({ categories, images, onImageClick }) => {
         })
       ) : (
         categories.map((cat, idx) => {
-          console.log("qwq", cat.key);
-          console.log(images[cat.key]
-              ? `${process.env.NEXT_PUBLIC_API_URL}/uploads/${images[cat.key]}`
-              : cat.defaultImg.src);
-
           const position = getGridPosition(idx);
           const isLoaded = loadedImages[cat.key];
 

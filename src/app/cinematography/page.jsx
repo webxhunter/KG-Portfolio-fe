@@ -29,7 +29,6 @@ const serviceLinks = {
   "Fashion Photography": "/cinematography/frame-worthy",
 };
 
-const footerImages = [f_img_1, f_img_2, f_img_3, f_img_4, f_img_5, f_img_6];
 
 const getMediaType = (filename) => {
   if (!filename) return 'image';
@@ -41,29 +40,10 @@ const getMediaType = (filename) => {
 const Cinematography = () => {
   const [mediaMap, setMediaMap] = useState({});
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   
   const router = useRouter();
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  // Prepare gallery for Lightbox (only images)
-  const galleryMedia = categories
-    .map((cat, index) => {
-      const backend = mediaMap[cat.key];
-      if (backend && backend.url && backend.type === 'image') {
-        return {
-          src: backend.url,
-          type: backend.type,
-          label: cat.label,
-          originalIndex: index,
-        };
-      }
-      // Always include static images for lightbox
-      
-    })
-    .filter(item => item.type === 'image'); // Only images in lightbox
-
-  // Fetch media data
   useEffect(() => {
     const fetchMedia = async () => {
       if (!API_URL) {
@@ -97,7 +77,6 @@ const Cinematography = () => {
         setMediaMap(map);
       } catch (err) {
         console.error('Error fetching cinematography data:', err);
-        setError(err.message);
         setMediaMap({});
       } finally {
         setLoading(false);
@@ -142,7 +121,7 @@ const Cinematography = () => {
 
       <ScrollingFooter categories={categories} />
       
-      <ImageGallery images={footerImages} />
+      <ImageGallery  />
     </>
   );
 };
