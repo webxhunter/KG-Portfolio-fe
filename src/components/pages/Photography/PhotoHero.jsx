@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import photoIcon from "@/assets/Photography/AbstractDesign.png";
+import photoIcon from "@/Assets/Photography/AbstractDesign.png";
 
 export const PhotoHero = () => {
   return (
