@@ -5,13 +5,14 @@ import footerIcon from "@/Assets/Home/home-footer-icon.png";
 
 const ScrollingFooter = () => {
     const categories = [
-      "Event Photography",
-      "Comercial Photography",
-      "Product Photography",
-      "Wedding Photography",
-      "Landscape Photography",
-      "Branding Photography",
-      "Portrait Photography",
+      "Cinematography",
+      "Event Coverage",
+      "Music Videos",
+      "Commercial Films",
+      "Wedding Films",
+      "Short Films",
+      "Corporate Videos",
+      "Storytelling Visuals",
     ];
   
     return (
