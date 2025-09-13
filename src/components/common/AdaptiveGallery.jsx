@@ -4,83 +4,83 @@ const AdaptiveGallery = ({ content, onItemClick }) => {
   const getLayoutClasses = (n, index) => {
     if (n >= 10) {
       if (index < 10) {
-        if (index === 0) return "md:col-span-6 md:row-span-24 md:h-[80vh]";
-        if (index === 7) return "md:col-span-6 md:row-span-24 md:h-[80vh]";
-        return "md:col-span-3 md:row-span-12 md:h-[40vh]";
+        if (index === 0) return "md:col-span-6 md:row-span-24 md:h-[120vh]";
+        if (index === 7) return "md:col-span-6 md:row-span-24 md:h-[120vh]";
+        return "md:col-span-3 md:row-span-12 md:h-[60vh]";
       }
       const remaining = n % 10;
       const extraIndex = index % 10;
       
-      if (remaining === 1) return "md:col-span-12 md:row-span-24 md:h-[80vh]";
-      if (remaining === 2) return "md:col-span-6 md:row-span-24 md:h-[80vh]";
+      if (remaining === 1) return "md:col-span-12 md:row-span-24 md:h-[120vh]";
+      if (remaining === 2) return "md:col-span-6 md:row-span-24 md:h-[120vh]";
       if (remaining === 3) {
-        return extraIndex === 0 ? "md:col-span-6 md:row-span-24 md:h-[80vh]" : "md:col-span-6 md:row-span-12 md:h-[40vh]";
+        return extraIndex === 0 ? "md:col-span-6 md:row-span-24 md:h-[120vh]" : "md:col-span-6 md:row-span-12 md:h-[60vh]";
       }
       if (remaining === 4) {
-        if (extraIndex === 0) return "md:col-span-6 md:row-span-24 md:h-[80vh]";
-        if (extraIndex < 3) return "md:col-span-3 md:row-span-12 md:h-[40vh]";
-        return "md:col-span-6 md:row-span-12 md:h-[40vh]";
+        if (extraIndex === 0) return "md:col-span-6 md:row-span-24 md:h-[120vh]";
+        if (extraIndex < 3) return "md:col-span-3 md:row-span-12 md:h-[60vh]";
+        return "md:col-span-6 md:row-span-12 md:h-[60vh]";
       }
       if (remaining === 5) {
-        if (extraIndex === 0) return "md:col-span-6 md:row-span-24 md:h-[80vh]";
-        return "md:col-span-3 md:row-span-12 md:h-[40vh]";
+        if (extraIndex === 0) return "md:col-span-6 md:row-span-24 md:h-[120vh]";
+        return "md:col-span-3 md:row-span-12 md:h-[60vh]";
       }
       if (remaining === 6) {
-        if (extraIndex === 0) return "md:col-span-6 md:row-span-24 md:h-[80vh]";
-        if (extraIndex < 5) return "md:col-span-3 md:row-span-12 md:h-[40vh]";
+        if (extraIndex === 0) return "md:col-span-6 md:row-span-24 md:h-[120vh]";
+        if (extraIndex < 5) return "md:col-span-3 md:row-span-12 md:h-[60vh]";
         return "md:col-span-12 md:row-span-6 md:h-[60vh]";
       }
       if (remaining === 7) {
-        if (extraIndex === 0) return "md:col-span-6 md:row-span-24 md:h-[80vh]";
-        if (extraIndex < 5) return "md:col-span-3 md:row-span-12 md:h-[40vh]";
-        return "md:col-span-6 md:row-span-6 md:h-[40vh]";
+        if (extraIndex === 0) return "md:col-span-6 md:row-span-24 md:h-[120vh]";
+        if (extraIndex < 5) return "md:col-span-3 md:row-span-12 md:h-[60vh]";
+        return "md:col-span-6 md:row-span-6 md:h-[60vh]";
       }
       if (remaining === 8) {
-        if (extraIndex === 0) return "md:col-span-6 md:row-span-24 md:h-[80vh]";
-        if (extraIndex < 5) return "md:col-span-3 md:row-span-12 md:h-[40vh]";
-        return "md:col-span-4 md:row-span-6 md:h-[40vh]";
+        if (extraIndex === 0) return "md:col-span-6 md:row-span-24 md:h-[120vh]";
+        if (extraIndex < 5) return "md:col-span-3 md:row-span-12 md:h-[60vh]";
+        return "md:col-span-4 md:row-span-6 md:h-[60vh]";
       }
       if (remaining === 9) {
-        if (extraIndex === 0) return "md:col-span-6 md:row-span-24 md:h-[80vh]";
-        if (extraIndex === 7) return "md:col-span-6 md:row-span-24 md:h-[80vh]";
-        if (extraIndex === 8) return "md:col-span-6 md:row-span-12 md:h-[40vh]";
-        if (extraIndex < 9) return "md:col-span-3 md:row-span-12 md:h-[40vh]";
-        return "md:col-span-6 md:row-span-12 md:h-[40vh]";
+        if (extraIndex === 0) return "md:col-span-6 md:row-span-24 md:h-[120vh]";
+        if (extraIndex === 7) return "md:col-span-6 md:row-span-24 md:h-[120vh]";
+        if (extraIndex === 8) return "md:col-span-6 md:row-span-12 md:h-[60vh]";
+        if (extraIndex < 9) return "md:col-span-3 md:row-span-12 md:h-[60vh]";
+        return "md:col-span-6 md:row-span-12 md:h-[60vh]";
       }
       
-      return "md:col-span-3 md:row-span-6 md:h-[40vh]";
+      return "md:col-span-3 md:row-span-6 md:h-[60vh]";
     }
 
     switch (n) {
-      case 1: return "md:col-span-12 md:row-span-24 md:h-[80vh]";
-      case 2: return "md:col-span-6 md:row-span-24 md:h-[80vh]";
-      case 3: return index === 0 ? "md:col-span-6 md:row-span-24 md:h-[80vh]" : "md:col-span-6 md:row-span-12 md:h-[40vh]";
+      case 1: return "md:col-span-12 md:row-span-24 md:h-[120vh]";
+      case 2: return "md:col-span-6 md:row-span-24 md:h-[120vh]";
+      case 3: return index === 0 ? "md:col-span-6 md:row-span-24 md:h-[120vh]" : "md:col-span-6 md:row-span-12 md:h-[60vh]";
       case 4:
-        if (index === 0) return "md:col-span-6 md:row-span-24 md:h-[80vh]";
-        if (index < 3) return "md:col-span-3 md:row-span-12 md:h-[40vh]";
-        return "md:col-span-6 md:row-span-12 md:h-[40vh]";
+        if (index === 0) return "md:col-span-6 md:row-span-24 md:h-[120vh]";
+        if (index < 3) return "md:col-span-3 md:row-span-12 md:h-[60vh]";
+        return "md:col-span-6 md:row-span-12 md:h-[60vh]";
       case 5:
-        if (index === 0) return "md:col-span-6 md:row-span-24 md:h-[80vh]";
-        return "md:col-span-3 md:row-span-12 md:h-[40vh]";
+        if (index === 0) return "md:col-span-6 md:row-span-24 md:h-[120vh]";
+        return "md:col-span-3 md:row-span-12 md:h-[60vh]";
       case 6:
-        if (index === 0) return "md:col-span-6 md:row-span-24 md:h-[80vh]";
-        if (index < 5) return "md:col-span-3 md:row-span-12 md:h-[40vh]";
+        if (index === 0) return "md:col-span-6 md:row-span-24 md:h-[120vh]";
+        if (index < 5) return "md:col-span-3 md:row-span-12 md:h-[60vh]";
         return "md:col-span-12 md:row-span-6 md:h-[60vh]";
       case 7:
-        if (index === 0) return "md:col-span-6 md:row-span-24 md:h-[80vh]";
-        if (index < 5) return "md:col-span-3 md:row-span-12 md:h-[40vh]";
-        return "md:col-span-6 md:row-span-6 md:h-[40vh]";
+        if (index === 0) return "md:col-span-6 md:row-span-24 md:h-[120vh]";
+        if (index < 5) return "md:col-span-3 md:row-span-12 md:h-[60vh]";
+        return "md:col-span-6 md:row-span-12 md:h-[120vh]";
       case 8:
-        if (index === 0) return "md:col-span-6 md:row-span-24 md:h-[80vh]";
-        if (index < 5) return "md:col-span-3 md:row-span-12 md:h-[40vh]";
-        return "md:col-span-4 md:row-span-6 md:h-[40vh]";
+        if (index === 0) return "md:col-span-6 md:row-span-24 md:h-[120vh]";
+        if (index < 5) return "md:col-span-3 md:row-span-12 md:h-[60vh]";
+        return "md:col-span-4 md:row-span-12 md:h-[120vh]";
       case 9:
-        if (index === 0) return "md:col-span-6 md:row-span-24 md:h-[80vh]";
-        if (index === 7) return "md:col-span-6 md:row-span-24 md:h-[80vh]";
-        if (index === 8) return "md:col-span-6 md:row-span-12 md:h-[40vh]";
-        if (index < 9) return "md:col-span-3 md:row-span-12 md:h-[40vh]";
-        return "md:col-span-6 md:row-span-12 md:h-[40vh]";
-      default: return "md:col-span-3 md:row-span-6 md:h-[40vh]";
+        if (index === 0) return "md:col-span-6 md:row-span-24 md:h-[120vh]";
+        if (index === 7) return "md:col-span-6 md:row-span-24 md:h-[120vh]";
+        if (index === 8) return "md:col-span-6 md:row-span-12 md:h-[60vh]";
+        if (index < 9) return "md:col-span-3 md:row-span-12 md:h-[60vh]";
+        return "md:col-span-6 md:row-span-12 md:h-[60vh]";
+      default: return "md:col-span-3 md:row-span-6 md:h-[60vh]";
     }
   };
 
