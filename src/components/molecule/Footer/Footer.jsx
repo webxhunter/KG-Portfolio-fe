@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
-import Link from "next/link";
-import Image from "next/image";
+import Link from "next/link";                                            
 import instaicon from "@/Assets/Home/insta-icon-kg.png";
 
 const Footer = () => {
@@ -49,11 +48,11 @@ const Footer = () => {
 
         <div className="border-t border-[#1C1C21] pt-6 pr-4 flex justify-between items-center w-full">
           <div className="text-gray-400 text-sm flex gap-x-2   px-4">
-            <Link href="/terms" className="hover:text-white pt-2 transition-colors">
+            <Link href="/#" className="hover:text-white pt-2 transition-colors">
               Terms & Conditions
             </Link>
             <div className=" bg-[#1C1C21] w-[1px] h-10"/>
-            <Link href="/privacy" className="hover:text-white pt-2 transition-colors">
+            <Link href="/#" className="hover:text-white pt-2 transition-colors">
               Privacy Policy
             </Link>
           </div>

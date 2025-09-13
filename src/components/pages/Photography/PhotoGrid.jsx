@@ -10,9 +10,9 @@ export const PhotoGrid = ({ categories, images, onImageClick }) => {
   const getGridPosition = (index) => {
     // Define specific positioning for masonry layout
     const positions = [
-      { col: 'col-span-4', row: 'row-span-3', height: 'h-[420px]' }, // Food - medium
-      { col: 'col-span-4', row: 'row-span-3', height: 'h-[420px]' }, // People Vibes - tall
-      { col: 'col-span-4', row: 'row-span-3', height: 'h-[420px]' }, // Self Portrait Stories - medium
+      { col: 'col-span-6 md:col-span-4', row: 'row-span-2 md:row-span-3', height: 'h-[420px]' }, // Food - medium
+      { col: 'col-span-6 md:col-span-4', row: 'row-span-2 md:row-span-3', height: 'h-[420px]' }, // People Vibes - tall
+      { col: 'col-span-12 md:col-span-4', row: 'row-span-2 md:row-span-3', height: 'h-[420px]' }, // Self Portrait Stories - medium
       { col: 'col-span-6', row: 'row-span-2', height: 'h-[280px]' }, // Selfie - wide medium
       { col: 'col-span-6', row: 'row-span-2', height: 'h-[280px]' }, // Vibes - wide medium
       { col: 'col-span-12', row: 'row-span-3', height: 'h-[420px]' }, // Events - full width tall
