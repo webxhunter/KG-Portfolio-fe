@@ -47,7 +47,7 @@ const CinematographyHeader = () => {
       beautiful glances—we capture what words can't express.
     </p>
     
-    <Link href="#contact" data-aos="fade-up" data-aos-delay="600">
+    <Link href="/#contact" data-aos="fade-up" data-aos-delay="600">
     <button
             className="group inline-flex items-center gap-3  rounded-full px-6 py-3 text-white font-medium tracking-wide transition-all duration-300 hover:bg-white hover:text-black mt-2 sm:mt-0"
             style={{ boxShadow: "4px 4px 17.4px 0px #FFFFFF47 inset" }}
