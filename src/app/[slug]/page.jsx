@@ -67,7 +67,7 @@ export default function BrandInFramePage() {
   return (
     <div className="bg-black text-white min-h-screen">
       <section
-        className="py-12 px-4 sm:px-8 md:px-12 lg:px-16"
+        className="py-12 px-2  md:px-12 lg:px-16"
         data-aos="fade-in"
       >
         <NavigationButtons />

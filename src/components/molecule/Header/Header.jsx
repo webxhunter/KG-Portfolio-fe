@@ -66,7 +66,7 @@ const Header = () => {
                 )}
               </li>
             </ul>
-            <Link href="/about-me#contact" className="bg-[#1C1C21] text-white rounded-lg px-5 py-2 text-base font-medium transition-colors">
+            <Link href="/#contact" className="bg-[#1C1C21] text-white rounded-lg px-5 py-2 text-base font-medium transition-colors">
               Contact Me
             </Link>
           </div>

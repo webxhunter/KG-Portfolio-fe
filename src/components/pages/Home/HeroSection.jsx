@@ -53,7 +53,7 @@ const HeroSection = ({ heroVideo }) => {
                 <p className="text-base font-light text-gray-300 mb-3 md:mb-6 sm:text-xl">
                   {heroVideo.description}
                 </p>
-                <Link href="/contact">
+                <Link href="/#contact">
                   <button className="inline-flex items-center gap-3 px-6 py-2 text-sm md:px-7 md:py-3 md:text-base border-none rounded-full bg-gradient-to-br from-gray-800 to-black text-gray-300 font-normal cursor-pointer shadow-inner transition-all duration-300 hover:from-gray-700 hover:to-gray-900 hover:text-white">
                     <svg
                       className="w-5 h-5 stroke-current stroke-2 fill-none"

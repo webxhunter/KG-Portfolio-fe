@@ -92,8 +92,9 @@ const ServicesSection = ({ services }) => {
       className="py-12 bg-black text-white"
       id="services"
       data-aos="fade-up"
+      
     >
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4" id="work">
         <h6 className="text-sm md:text-base text-gray-400 mb-2" data-aos="fade-up" data-aos-delay="200">
           WORK
         </h6>
