@@ -8,9 +8,10 @@ import ClientStorySection from "@/components/pages/Home/ClientStorySection";
 import ContactSection from "@/components/pages/Home/ContactSection";
 import axios from "axios";
 import { toast } from "react-toastify";
-import Image from "next/image"; // Use Next.js Image component
+import Image from "next/image";
 import thankyou from "@/Assets/Home/thankuou-cat.gif";
 import ScrollingFooter from "@/components/molecule/ScrollingCategory/ScrollingFooter";
+
 // Helper function for fetching data to reduce repetition
 const fetchData = async (url, setter, errorMessage) => {
   try {
@@ -23,10 +24,13 @@ const fetchData = async (url, setter, errorMessage) => {
 
 const Home = () => {
   const [heroVideo, setHeroVideo] = useState(null);
+  
   const [services, setServices] = useState([]);
   const [clientVideo, setClientVideo] = useState(null);
   const [testimonials, setTestimonials] = useState([]);
   const [blogs, setBlogs] = useState([]);
+
+ // Added dependencies for better effect management
 
   useEffect(() => {
     // Use NEXT_PUBLIC_ for client-side environment variables

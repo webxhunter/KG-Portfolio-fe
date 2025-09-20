@@ -88,35 +88,34 @@ const AdaptiveGallery = ({ content, onItemClick }) => {
 
   return (
     <div className="w-full p-4">
-      <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-24 gap-2">
-        {content.map((src, index) => (
-          <div
-            key={index}
-            className={`cursor-pointer overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105 ${getLayoutClasses(content.length, index)}`}
-            onClick={() => onItemClick(src, index)}
-          >
-            {isVideo(src) ? (
-              <video
-                src={src}
-                className="w-full h-full object-cover"
-                preload="none"
-                muted
-                autoPlay
-                loop
-                playsInline
-              />
-            ) : (
-              <img
-                src={src}
-                alt=""
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-            )}
-          </div>
-        ))}
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-24 gap-2">
+      {content.map((src, index) => (
+        <div
+          key={index}
+          className={`cursor-pointer overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105 ${getLayoutClasses(content.length, index)}`}
+          onClick={() => onItemClick(src, index)}
+        >
+          {isVideo(src) ? (
+            <video
+              src={src}
+              className="w-full h-full object-cover"
+              loading="lazy"
+              preload="metadata"
+              muted
+              playsInline
+            />
+          ) : (
+            <img
+              src={src}
+              alt=""
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+          )}
+        </div>
+      ))}
     </div>
+  </div>
   );
 };
 

@@ -6,11 +6,14 @@ import Header from "@/components/molecule/Header/Header";
 import Footer from "@/components/molecule/Footer/Footer";
 import Sidebar from '@/components/molecule/SideBar';
 import Topbar from '@/components/molecule/TopBar';
+
 function ProtectedRoute({ children }) {
+  const pathname = usePathname();
+
     const [isAuth, setIsAuth] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
-  
+   
     useEffect(() => {
       const token = localStorage?.getItem('adminToken');
       if (token) {
@@ -61,6 +64,7 @@ function ProtectedRoute({ children }) {
   
  export default function RootLayoutContent({ children }) {
     const pathname = usePathname();
+    const router = useRouter();
     const isAdminRoute = pathname?.startsWith('/admin');
     const isAdminLogin = pathname === '/admin/login' || pathname === '/admin';
     const isProtectedAdminRoute = isAdminRoute && !isAdminLogin;
@@ -83,7 +87,35 @@ function ProtectedRoute({ children }) {
         );
       }
     }
-  
+    useEffect(() => {
+      const validRoutes = [
+        '/',
+        '/admin',
+        '/brand-in-frame',
+        '/taste-meet-frames', 
+        '/self-initiated',
+        '/together-forever',
+        '/revel-rhythm',
+        '/frame-worthy',
+        '/cinematography',
+        '/photography',
+        '/cinematography/brand-in-frame',
+        '/cinematography/taste-meet-frames',
+        '/cinematography/self-initiated', 
+        '/cinematography/together-forever',
+        '/cinematography/revel-rhythm',
+        '/cinematography/frame-worthy',
+        '/about-me',
+        '/blogs'
+      ];
+      
+      // If pathname is not in validRoutes, redirect to "/"
+      const isValidRoute = validRoutes.includes(pathname) || pathname.startsWith('/admin/');
+      
+      if (!isValidRoute) {
+        router.push("/");
+      }
+    }, [pathname, router]);
     // Regular website routes
     return (
       < >
