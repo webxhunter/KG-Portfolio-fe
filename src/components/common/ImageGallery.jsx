@@ -9,7 +9,9 @@ const MediaItem = ({ item, onClick }) => (
         data-aos="fade-up"
     >
         {item.type === 'video' ? (
-            <video src={item.src} controls className="w-full h-full object-cover" />
+            <video src={item.src} controls className="w-full h-full object-cover" preload="none"
+            playsInline
+            muted/>
         ) : (
             <Image
                 src={item.src}

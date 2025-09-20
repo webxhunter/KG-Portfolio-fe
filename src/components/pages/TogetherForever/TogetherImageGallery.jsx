@@ -23,6 +23,7 @@ const TogetherImageGallery = ({ images, media, onImageClick }) => {
             controls
             playsInline
             muted
+            preload="none"
           />
         ) : (
           <Image

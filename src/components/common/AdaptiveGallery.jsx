@@ -99,7 +99,7 @@ const AdaptiveGallery = ({ content, onItemClick }) => {
               <video
                 src={src}
                 className="w-full h-full object-cover"
-                preload="metadata"
+                preload="none"
                 muted
                 autoPlay
                 loop

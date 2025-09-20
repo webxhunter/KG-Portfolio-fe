@@ -16,6 +16,7 @@ const MediaCard = ({ category, src, isVideo, index, gridClasses, onClick }) => {
             className="w-full h-full object-cover"
             autoPlay
             loop
+            mutedpreload="none"
             muted
             playsInline
             controls={false}

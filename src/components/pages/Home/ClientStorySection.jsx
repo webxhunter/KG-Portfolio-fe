@@ -23,6 +23,7 @@ const ClientStorySection = ({ clientVideo }) => {
               autoPlay
               loop
               muted
+              preload="none"
               playsInline
             >
               <source src={`${process.env.NEXT_PUBLIC_API_URL}${clientVideo.url}`} type="video/mp4" />

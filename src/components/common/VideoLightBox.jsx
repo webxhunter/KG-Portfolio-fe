@@ -44,6 +44,8 @@ const VideoLightBox = ({ open, src, onClose, onNext, onPrev, showNav }) => {
               controls
               loop
               autoPlay
+              preload="none"
+          playsInline
               muted
               className="max-w-[45vw] max-h-[65vh]"
             />

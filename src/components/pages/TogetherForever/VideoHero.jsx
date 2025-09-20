@@ -9,6 +9,7 @@ const VideoHero = ({ media, defaultVideo, title }) => {
                 autoPlay
                 muted
                 loop
+                preload="none"
                 playsInline
                 className="w-full h-[450px] md:h-[550px] lg:h-[650px] object-cover"
               >

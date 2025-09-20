@@ -48,6 +48,7 @@ const ServiceItem = ({ service, className = "" }) => {
           autoPlay
           loop
           muted
+          preload="none"
           playsInline
           poster={defaultImages[service.name].src}
         />
