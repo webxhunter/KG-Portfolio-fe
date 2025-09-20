@@ -29,7 +29,7 @@ const serviceLinks = {
 
 const serviceTitles = {
   self_initiated_stories: "SELF INITIATED STORIES",
-  wedding: "WEDDING",
+  wedding: "COUPLE",
   revel_rhythm: "REVEL & RHYTHM",
   food: "FOOD",
   brand_in_frame: "BRAND IN FRAME",
