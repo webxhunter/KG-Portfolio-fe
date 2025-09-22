@@ -101,6 +101,8 @@ const AdaptiveGallery = ({ content, onItemClick }) => {
               className="w-full h-full object-cover"
               loading="lazy"
               preload="metadata"
+              autoPlay
+              loop
               muted
               playsInline
             />

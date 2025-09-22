@@ -12,6 +12,8 @@ const MediaItem = ({ item, onClick }) => (
         {item.type === 'video' ? (
             <video src={item.src} controls className="w-full h-full object-cover" preload="none"
             playsInline
+            autoPlay
+            loop
             muted/>
         ) : (
             <Image

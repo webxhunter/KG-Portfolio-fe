@@ -22,6 +22,8 @@ const TogetherImageGallery = ({ images, media, onImageClick }) => {
             className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
             controls
             playsInline
+            autoPlay
+            loop
             muted
             preload="none"
           />

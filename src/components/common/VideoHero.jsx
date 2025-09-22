@@ -14,7 +14,9 @@ export default function VideoHero({ media, defaultVideo, title }) {
     return (
         <div className="container mx-auto my-12 px-4" data-aos="fade-up" data-aos-delay="100">
             <div className="relative text-white overflow-hidden rounded-2xl shadow-2xl h-[60vh] max-h-[650px]">
-                <video key={videoSrc} autoPlay muted loop playsInline className="absolute w-full h-full object-cover">
+                <video key={videoSrc} autoPlay muted loop playsInline preload="none"
+    
+         className="absolute w-full h-full object-cover">
                     <source src={videoSrc} type="video/mp4" />
                 </video>
                 <div className="absolute inset-0 bg-black/50"></div>
