@@ -43,17 +43,17 @@ export default function BrandInFramePage() {
             (item) =>
               item.location === "gallery" &&
               item.category === slug &&
-              item.image_url
+              item.video_hls_path
           )
-          .map((item) => `${API_URL}/uploads/${item.image_url}`);
+          .map((item) => `${API_URL}/${item.video_hls_path}`);
 
         const heroItem = res.data.find(
           (item) =>
-            item.location === "hero" && item.category === slug && item.image_url
+            item.location === "hero" && item.category === slug && item.video_hls_path
         );
 
         setVideos(galleryMedia);
-        setHero(heroItem ? `${API_URL}/uploads/${heroItem.image_url}` : null);
+        setHero(heroItem ? `${API_URL}/${heroItem.video_hls_path}` : null);
       }
     } catch (e) {
       console.error("Error fetching media:", e);
