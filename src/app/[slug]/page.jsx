@@ -43,7 +43,7 @@ export default function BrandInFramePage() {
             (item) =>
               item.location === "gallery" &&
               item.category === slug &&
-              item.video_hls_path
+              item.image_url
           )
           .map((item) => `${API_URL}/${item.video_hls_path}`);
 
