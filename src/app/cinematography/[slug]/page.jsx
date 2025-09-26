@@ -12,10 +12,7 @@ import ScrollingFooter from '@/components/molecule/ScrollingCategory/ScrollingFo
 import ImageCollage from '@/components/pages/Blogs/ImageCollage';
 
 const convertToTitleCase = (str) =>
-  str
-    ?.split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ") || "";
+  str?.split("-").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ") || "";
 
 export default function SelfInitiatedVideoPage() {
   const params = useParams();
@@ -41,16 +38,16 @@ export default function SelfInitiatedVideoPage() {
             (item) =>
               item.location === "gallery" &&
               item.category === slug &&
-              item.video_url
+              item.video_hls_path
           )
-          .map((item) => `${API_URL}/uploads/${item.video_url}`);
+          .map((item) => `${API_URL}/${item.video_hls_path}`);
         
         const mainVideo = res.data.find(
           (item) =>
-            item.location === "hero" && item.category === slug && item.video_url
+            item.location === "hero" && item.category === slug && item.video_hls_path
         );
         
-        setHero(mainVideo ? `${API_URL}/uploads/${mainVideo.video_url}` : null);
+        setHero(mainVideo ? `${API_URL}/${mainVideo.video_hls_path}` : null);
         setVideos(filteredVideos);
       }
     } catch (e) {
@@ -64,10 +61,7 @@ export default function SelfInitiatedVideoPage() {
 
   return (
     <div className="bg-black text-white min-h-screen">
-      <section
-        className="py-12 px-4 sm:px-8 md:px-12 lg:px-16"
-        data-aos="fade-in"
-      >
+      <section className="py-12 px-4 sm:px-8 md:px-12 lg:px-16" data-aos="fade-in">
         <NavigationButtons type />
         <VideoHero
           defaultVideo={hero}

@@ -42,4 +42,4 @@ const VideoGallery = ({ videos = [] }) => {
   );
 };
 
-export default VideoGallery
+export default VideoGallery;

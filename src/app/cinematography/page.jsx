@@ -1,15 +1,15 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import axios from 'axios';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useRouter } from 'next/navigation';
+import Hls from 'hls.js';
 import CinematographyHeader from '@/components/pages/Cinematography/CinematographyHeader';
 import MediaGrid from '@/components/pages/Cinematography/MediaGrid ';
 import ScrollingFooter from '@/components/molecule/ScrollingCategory/ScrollingFooter';
 import ImageGallery from '@/components/pages/Blogs/ImageCollage';
-
 
 const categories = [
   { key: "Brand in Frame", label: "Brand in Frame" },
@@ -29,12 +29,104 @@ const serviceLinks = {
   "Fashion Photography": "/cinematography/frame-worthy",
 };
 
-
 const getMediaType = (filename) => {
   if (!filename) return 'image';
   const ext = filename.split('.').pop().toLowerCase();
-  if (["mp4", "webm", "mov", "avi", "mkv"].includes(ext)) return 'video';
+  if (["mp4", "webm", "mov", "avi", "mkv", "m3u8"].includes(ext)) return 'video';
   return 'image';
+};
+
+// Custom Video Component with HLS support
+const HLSVideoPlayer = ({ src, className, onLoadedData, ...props }) => {
+  const videoRef = useRef(null);
+  const hlsRef = useRef(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const initializeVideo = useCallback(() => {
+    const video = videoRef.current;
+    if (!video || !src) return;
+
+    const videoSrc = src.startsWith("http") 
+      ? src 
+      : `${process.env.NEXT_PUBLIC_API_URL}/${src}`;
+
+    // Handle native HLS support (Safari)
+    if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = videoSrc;
+      video.addEventListener('loadeddata', () => {
+        setIsLoaded(true);
+        if (onLoadedData) onLoadedData();
+      }, { once: true });
+    } 
+    // Handle HLS.js for other browsers
+    else if (Hls.isSupported()) {
+      const hls = new Hls({
+        enableWorker: false,
+        lowLatencyMode: true,
+        backBufferLength: 90,
+        maxBufferLength: 30,
+        maxMaxBufferLength: 600
+      });
+      
+      hlsRef.current = hls;
+      hls.loadSource(videoSrc);
+      hls.attachMedia(video);
+      
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        setIsLoaded(true);
+        if (onLoadedData) onLoadedData();
+        video.play().catch(() => {});
+      });
+
+      hls.on(Hls.Events.ERROR, (event, data) => {
+        if (data.fatal) {
+          switch (data.type) {
+            case Hls.ErrorTypes.NETWORK_ERROR:
+              hls.startLoad();
+              break;
+            case Hls.ErrorTypes.MEDIA_ERROR:
+              hls.recoverMediaError();
+              break;
+            default:
+              hls.destroy();
+              hlsRef.current = null;
+              break;
+          }
+        }
+      });
+    } 
+    // Fallback for browsers that don't support HLS
+    else {
+      video.src = videoSrc;
+      video.addEventListener('loadeddata', () => {
+        setIsLoaded(true);
+        if (onLoadedData) onLoadedData();
+      }, { once: true });
+    }
+  }, [src, onLoadedData]);
+
+  useEffect(() => {
+    initializeVideo();
+    
+    return () => {
+      if (hlsRef.current) {
+        hlsRef.current.destroy();
+        hlsRef.current = null;
+      }
+    };
+  }, [initializeVideo]);
+
+  return (
+    <video
+      ref={videoRef}
+      className={`${className} transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+      autoPlay
+      muted
+      loop
+      playsInline
+      {...props}
+    />
+  );
 };
 
 const Cinematography = () => {
@@ -65,10 +157,11 @@ const Cinematography = () => {
         
         if (Array.isArray(data)) {
           data.forEach(item => {
-            if (item.location === 'main' && item.category && item.video_url) {
+            if (item.location === 'main' && item.category && item.video_hls_path) {
+              // Store the relative path, HLSVideoPlayer will handle the full URL construction
               map[item.category] = {
-                url: `${API_URL}/uploads/${item.video_url}`,
-                type: getMediaType(item.video_url),
+                url: `${process.env.NEXT_PUBLIC_API_URL}/${item.video_hls_path}`,
+                type: getMediaType(item.video_hls_path),
               };
             }
           });
@@ -97,12 +190,9 @@ const Cinematography = () => {
 
   const handleMediaClick = (index) => {
     const category = categories[index];
-    
-      // Navigate to service link for videos
-      router.push(serviceLinks[category.key]);
-      
+    // Navigate to service link for videos
+    router.push(serviceLinks[category.key]);
   };
-
 
   return (
     <>
@@ -114,14 +204,13 @@ const Cinematography = () => {
           mediaMap={mediaMap}
           onMediaClick={handleMediaClick}
           loading={loading}
+          HLSVideoPlayer={HLSVideoPlayer} // Pass the HLS component to MediaGrid
         />
       </section>
 
-      
-
       <ScrollingFooter categories={categories} />
       
-      <ImageGallery  />
+      <ImageGallery />
     </>
   );
 };
