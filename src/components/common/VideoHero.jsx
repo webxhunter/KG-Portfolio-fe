@@ -92,11 +92,11 @@ export default function VideoHero({ media, defaultVideo, title }) {
           playsInline 
           className={`absolute w-full h-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
         />
-        {!isLoaded && (
+        {/* {!isLoaded && (
           <div className="absolute inset-0 bg-gray-900 flex items-center justify-center">
             <div className="w-8 h-8 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
           </div>
-        )}
+        )} */}
         <div className="absolute inset-0 bg-black/50"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent"></div>
         <div className="absolute bottom-8 left-8">
