@@ -189,11 +189,7 @@ const AdaptiveGallery = ({ content, onItemClick }) => {
                 onLoad={() => setLoadedItems(prev => new Set(prev).add(index))}
               />
             )}
-            {!loadedItems.has(index) && (
-              <div className="absolute inset-0 bg-gray-900 animate-pulse rounded-lg flex items-center justify-center">
-                <div className="w-8 h-8 border-2 border-gray-600 border-t-transparent rounded-full animate-spin"></div>
-              </div>
-            )}
+            
           </div>
         ))}
       </div>

@@ -45,7 +45,7 @@ export default function BrandInFramePage() {
               item.category === slug &&
               item.image_url
           )
-          .map((item) => `${API_URL}/${item.video_hls_path}`);
+          .map((item) => `${API_URL}/uploads/${item.image_url}`);
 
         const heroItem = res.data.find(
           (item) =>
