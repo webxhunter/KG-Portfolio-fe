@@ -32,7 +32,9 @@ export default function VideoHero({ media, defaultVideo, title }) {
           lowLatencyMode: true,
           backBufferLength: 90,
           maxBufferLength: 30,
-          maxMaxBufferLength: 600
+          maxMaxBufferLength: 600,
+          capLevelToPlayerSize: false,
+          autoStartLoad: false
         });
         
         hlsRef.current = hls;
@@ -40,6 +42,18 @@ export default function VideoHero({ media, defaultVideo, title }) {
         hls.attachMedia(video);
         
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          const levels = hls.levels;
+          let targetLevel = levels.findIndex(level => level.height === 1080 || level.height === 720);
+          
+          if (targetLevel === -1) {
+            targetLevel = levels.reduce((best, level, idx) => 
+              level.height <= 1080 && level.height > levels[best].height ? idx : best
+            , 0);
+          }
+          
+          hls.currentLevel = targetLevel;
+          hls.loadLevel = targetLevel;
+          hls.startLoad();
           setIsLoaded(true);
           video.play().catch(() => {});
         });
@@ -79,8 +93,6 @@ export default function VideoHero({ media, defaultVideo, title }) {
     };
   }, [initializeVideo]);
 
-//   if (!videoSrc) return null;
-
   return (
     <div className="container mx-auto my-12 px-4" data-aos="fade-up" data-aos-delay="100">
       <div className="relative text-white overflow-hidden rounded-2xl shadow-2xl h-[60vh] max-h-[650px]">
@@ -92,11 +104,6 @@ export default function VideoHero({ media, defaultVideo, title }) {
           playsInline 
           className={`absolute w-full h-full object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
         />
-        {/* {!isLoaded && (
-          <div className="absolute inset-0 bg-gray-900 flex items-center justify-center">
-            <div className="w-8 h-8 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
-          </div>
-        )} */}
         <div className="absolute inset-0 bg-black/50"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent"></div>
         <div className="absolute bottom-8 left-8">

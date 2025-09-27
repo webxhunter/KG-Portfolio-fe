@@ -36,7 +36,6 @@ const getMediaType = (filename) => {
   return 'image';
 };
 
-// Custom Video Component with HLS support
 const HLSVideoPlayer = ({ src, className, onLoadedData, ...props }) => {
   const videoRef = useRef(null);
   const hlsRef = useRef(null);
@@ -50,22 +49,21 @@ const HLSVideoPlayer = ({ src, className, onLoadedData, ...props }) => {
       ? src 
       : `${process.env.NEXT_PUBLIC_API_URL}/${src}`;
 
-    // Handle native HLS support (Safari)
     if (video.canPlayType('application/vnd.apple.mpegurl')) {
       video.src = videoSrc;
       video.addEventListener('loadeddata', () => {
         setIsLoaded(true);
         if (onLoadedData) onLoadedData();
       }, { once: true });
-    } 
-    // Handle HLS.js for other browsers
-    else if (Hls.isSupported()) {
+    } else if (Hls.isSupported()) {
       const hls = new Hls({
         enableWorker: false,
         lowLatencyMode: true,
         backBufferLength: 90,
         maxBufferLength: 30,
-        maxMaxBufferLength: 600
+        maxMaxBufferLength: 600,
+        capLevelToPlayerSize: false,
+        // autoStartLoad: false
       });
       
       hlsRef.current = hls;
@@ -73,6 +71,18 @@ const HLSVideoPlayer = ({ src, className, onLoadedData, ...props }) => {
       hls.attachMedia(video);
       
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        const levels = hls.levels;
+        let targetLevel = levels.findIndex(level => level.height === 1080 || level.height === 720);
+        
+        if (targetLevel === -1) {
+          targetLevel = levels.reduce((best, level, idx) => 
+            level.height <= 1080 && level.height > levels[best].height ? idx : best
+          , 0);
+        }
+        
+        hls.currentLevel = targetLevel;
+        hls.loadLevel = targetLevel;
+        hls.startLoad();
         setIsLoaded(true);
         if (onLoadedData) onLoadedData();
         video.play().catch(() => {});
@@ -94,9 +104,7 @@ const HLSVideoPlayer = ({ src, className, onLoadedData, ...props }) => {
           }
         }
       });
-    } 
-    // Fallback for browsers that don't support HLS
-    else {
+    } else {
       video.src = videoSrc;
       video.addEventListener('loadeddata', () => {
         setIsLoaded(true);
@@ -158,7 +166,6 @@ const Cinematography = () => {
         if (Array.isArray(data)) {
           data.forEach(item => {
             if (item.location === 'main' && item.category && item.video_hls_path) {
-              // Store the relative path, HLSVideoPlayer will handle the full URL construction
               map[item.category] = {
                 url: `${process.env.NEXT_PUBLIC_API_URL}/${item.video_hls_path}`,
                 type: getMediaType(item.video_hls_path),
@@ -179,7 +186,6 @@ const Cinematography = () => {
     fetchMedia();
   }, [API_URL]);
 
-  // Initialize AOS
   useEffect(() => {
     AOS.init({ 
       duration: 800, 
@@ -190,7 +196,6 @@ const Cinematography = () => {
 
   const handleMediaClick = (index) => {
     const category = categories[index];
-    // Navigate to service link for videos
     router.push(serviceLinks[category.key]);
   };
 
@@ -204,7 +209,7 @@ const Cinematography = () => {
           mediaMap={mediaMap}
           onMediaClick={handleMediaClick}
           loading={loading}
-          HLSVideoPlayer={HLSVideoPlayer} // Pass the HLS component to MediaGrid
+          HLSVideoPlayer={HLSVideoPlayer}
         />
       </section>
 

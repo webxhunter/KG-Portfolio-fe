@@ -110,7 +110,9 @@ const AdaptiveGallery = ({ content, onItemClick }) => {
           lowLatencyMode: true,
           backBufferLength: 30,
           maxBufferLength: 10,
-          maxMaxBufferLength: 60
+          maxMaxBufferLength: 60,
+          capLevelToPlayerSize: false,
+          // autoStartLoad: false
         });
         
         hlsRefs.current[index] = hls;
@@ -118,6 +120,18 @@ const AdaptiveGallery = ({ content, onItemClick }) => {
         hls.attachMedia(video);
         
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          const levels = hls.levels;
+          let targetLevel = levels.findIndex(level => level.height === 1080 || level.height === 720);
+          
+          if (targetLevel === -1) {
+            targetLevel = levels.reduce((best, level, idx) => 
+              level.height <= 1080 && level.height > levels[best].height ? idx : best
+            , 0);
+          }
+          
+          hls.currentLevel = targetLevel;
+          hls.loadLevel = targetLevel;
+          hls.startLoad();
           setLoadedItems(prev => new Set(prev).add(index));
         });
 
@@ -189,7 +203,6 @@ const AdaptiveGallery = ({ content, onItemClick }) => {
                 onLoad={() => setLoadedItems(prev => new Set(prev).add(index))}
               />
             )}
-            
           </div>
         ))}
       </div>
