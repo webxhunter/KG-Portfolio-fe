@@ -14,27 +14,25 @@ const MediaCard = ({ category, src, isVideo, index, gridClasses, onClick }) => {
     const video = videoRef.current;
     if (!video) return;
 
-    // Handle different video source formats
     const videoSrc = src.startsWith("http")
       ? src
       : `${process.env.NEXT_PUBLIC_API_URL}/${src}`;
 
-    // Check if it's an HLS stream
     const isHlsStream = videoSrc.includes('.m3u8') || videoSrc.includes('hls');
 
     if (isHlsStream) {
       if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        // Native HLS support (Safari)
         video.src = videoSrc;
         video.addEventListener('loadeddata', () => setIsLoaded(true), { once: true });
       } else if (Hls.isSupported()) {
-        // HLS.js for other browsers
         const hls = new Hls({
           enableWorker: false,
           lowLatencyMode: true,
           backBufferLength: 90,
           maxBufferLength: 30,
-          maxMaxBufferLength: 600
+          maxMaxBufferLength: 600,
+          capLevelToPlayerSize: false,
+          // autoStartLoad: false
         });
         
         hlsRef.current = hls;
@@ -42,6 +40,18 @@ const MediaCard = ({ category, src, isVideo, index, gridClasses, onClick }) => {
         hls.attachMedia(video);
         
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          const levels = hls.levels;
+          let targetLevel = levels.findIndex(level => level.height === 1080 || level.height === 720);
+          
+          if (targetLevel === -1) {
+            targetLevel = levels.reduce((best, level, idx) => 
+              level.height <= 1080 && level.height > levels[best].height ? idx : best
+            , 0);
+          }
+          
+          hls.currentLevel = targetLevel;
+          hls.loadLevel = targetLevel;
+          hls.startLoad();
           setIsLoaded(true);
         });
 
@@ -62,12 +72,10 @@ const MediaCard = ({ category, src, isVideo, index, gridClasses, onClick }) => {
           }
         });
       } else {
-        // Fallback for browsers that don't support HLS
         video.src = videoSrc;
         video.addEventListener('loadeddata', () => setIsLoaded(true), { once: true });
       }
     } else {
-      // Regular video file
       video.src = videoSrc;
       video.addEventListener('loadeddata', () => setIsLoaded(true), { once: true });
     }
@@ -77,7 +85,7 @@ const MediaCard = ({ category, src, isVideo, index, gridClasses, onClick }) => {
     if (isVideo) {
       initializeVideo();
     } else {
-      setIsLoaded(true); // Images load via Next.js Image component
+      setIsLoaded(true);
     }
     
     return () => {
@@ -118,7 +126,6 @@ const MediaCard = ({ category, src, isVideo, index, gridClasses, onClick }) => {
           />
         )}
         
-        {/* Loading overlay */}
         {!isLoaded && (
           <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-lg flex items-center justify-center">
             <div className="w-8 h-8 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>

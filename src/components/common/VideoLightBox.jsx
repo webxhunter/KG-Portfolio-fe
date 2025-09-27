@@ -26,7 +26,9 @@ const VideoLightBox = ({ open, src, onClose, onNext, onPrev, showNav }) => {
           lowLatencyMode: true,
           backBufferLength: 90,
           maxBufferLength: 30,
-          maxMaxBufferLength: 600
+          maxMaxBufferLength: 600,
+          capLevelToPlayerSize: false,
+          // autoStartLoad: false
         });
         
         hlsRef.current = hls;
@@ -34,6 +36,18 @@ const VideoLightBox = ({ open, src, onClose, onNext, onPrev, showNav }) => {
         hls.attachMedia(video);
         
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          const levels = hls.levels;
+          let targetLevel = levels.findIndex(level => level.height === 1080 || level.height === 720);
+          
+          if (targetLevel === -1) {
+            targetLevel = levels.reduce((best, level, idx) => 
+              level.height <= 1080 && level.height > levels[best].height ? idx : best
+            , 0);
+          }
+          
+          hls.currentLevel = targetLevel;
+          hls.loadLevel = targetLevel;
+          hls.startLoad();
           setIsLoaded(true);
           video.play().catch(() => {});
         });
