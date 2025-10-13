@@ -46,7 +46,7 @@ const Testimonials = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const url = editingId ? `${API_URL}/${editingId}` : API_URL;
+    const url = editingId ? `${API_URL}/api/testimonials/${editingId}` : `${API_URL}/api/testimonials`;
     const method = editingId ? 'PUT' : 'POST';
 
     try {
@@ -81,7 +81,7 @@ const Testimonials = () => {
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_URL}/api/testimonials/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Failed to delete testimonial');
       
       toast.success('Testimonial deleted!');

@@ -11,7 +11,7 @@ const Footer = () => {
           {/* Left Column */}
           <div className="w-[145px] md:w-full">
             <p className="text-gray-400 text-[9px] md:text-xs uppercase tracking-wider mb-6">
-              A MORE MEANINGFUL HOME FOR PHOTOGRAPHY
+              A MORE MEANINGFUL HOME FOR cinematoGRAPHY
             </p>
             <div className="text-white text-2xl md:text-5xl font-bold uppercase leading-tight">
               <div className="flex items-center gap-4">
