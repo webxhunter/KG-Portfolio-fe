@@ -84,7 +84,7 @@ const ClientStorySection = ({ clientVideo }) => {
               through my lens.” Impressed by his enthusiasm, the team welcomed
               him in.
             </p>
-            <div className="hidden lg:block">
+            {/* <div className="hidden lg:block"> */}
               <p className="text-sm sm:text-base text-gray-300 leading-relaxed break-words">
                 With his camera as the storyteller, Kamal captured the heart of
                 Dishoom — chefs passionately crafting every dish, the clatter
@@ -95,8 +95,8 @@ const ClientStorySection = ({ clientVideo }) => {
                 a bold offer turned into a story so good, it almost deserved a
                 spot on the menu.{" "}
               </p>
-            </div>
-            <div className="lg:hidden">
+            {/* </div> */}
+            {/* <div className="lg:hidden">
               <Link
                 href="/blogs/client-story"
                 className="text-white text-sm font-medium inline-block"
@@ -105,7 +105,7 @@ const ClientStorySection = ({ clientVideo }) => {
                   READ MORE
                 </span>
               </Link>
-            </div>
+            </div> */}
           </div>
           <div
             className="lg:col-span-1 w-full"
