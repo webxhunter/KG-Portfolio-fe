@@ -94,7 +94,7 @@ const TestimonialsSection = ({ testimonials }) => {
         >
           <Swiper
             modules={[Navigation, Pagination, Scrollbar, A11y,Autoplay]}
-            autoplay={{ delay: 1000, disableOnInteraction: false }}
+            autoplay={{ delay: 15000, disableOnInteraction: false }}
             pagination={{
               clickable: true,
               bulletClass:
