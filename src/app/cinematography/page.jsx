@@ -1,39 +1,40 @@
-'use client';
+"use client";
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import axios from 'axios';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-import { useRouter } from 'next/navigation';
-import Hls from 'hls.js';
-import CinematographyHeader from '@/components/pages/Cinematography/CinematographyHeader';
-import MediaGrid from '@/components/pages/Cinematography/MediaGrid ';
-import ScrollingFooter from '@/components/molecule/ScrollingCategory/ScrollingFooter';
-import ImageGallery from '@/components/pages/Blogs/ImageCollage';
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import axios from "axios";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useRouter, usePathname } from "next/navigation";
+import Hls from "hls.js";
+import CinematographyHeader from "@/components/pages/Cinematography/CinematographyHeader";
+import MediaGrid from "@/components/pages/Cinematography/MediaGrid ";
+import ScrollingFooter from "@/components/molecule/ScrollingCategory/ScrollingFooter";
+import ImageGallery from "@/components/pages/Blogs/ImageCollage";
+import GlobalLoader from "@/components/GlobalLoader";
 
 const categories = [
   { key: "Brand in Frame", label: "Brand in Frame" },
   { key: "Self Initiated Stories", label: "Self Initiated Stories" },
   { key: "Couple", label: "Couple" },
-  { key: "Food", label: "Food"},
-  { key: "Event", label: "Event"},
+  { key: "Food", label: "Food" },
+  { key: "Event", label: "Event" },
   { key: "Fashion Photography", label: "Fashion Cinematography" },
 ];
 
 const serviceLinks = {
   "Self Initiated Stories": "/cinematography/self-initiated",
-  "Couple": "/cinematography/together-forever",
-  "Event": "/cinematography/revel-rhythm",
-  "Food": "/cinematography/taste-meet-frames",
+  Couple: "/cinematography/together-forever",
+  Event: "/cinematography/revel-rhythm",
+  Food: "/cinematography/taste-meet-frames",
   "Brand in Frame": "/cinematography/brand-in-frame",
   "Fashion Photography": "/cinematography/frame-worthy",
 };
 
 const getMediaType = (filename) => {
-  if (!filename) return 'image';
-  const ext = filename.split('.').pop().toLowerCase();
-  if (["mp4", "webm", "mov", "avi", "mkv", "m3u8"].includes(ext)) return 'video';
-  return 'image';
+  if (!filename) return "image";
+  const ext = filename.split(".").pop().toLowerCase();
+  if (["mp4", "webm", "mov", "avi", "mkv", "m3u8"].includes(ext)) return "video";
+  return "image";
 };
 
 const HLSVideoPlayer = ({ src, className, onLoadedData, ...props }) => {
@@ -45,16 +46,20 @@ const HLSVideoPlayer = ({ src, className, onLoadedData, ...props }) => {
     const video = videoRef.current;
     if (!video || !src) return;
 
-    const videoSrc = src.startsWith("http") 
-      ? src 
+    const videoSrc = src.startsWith("http")
+      ? src
       : `${process.env.NEXT_PUBLIC_API_URL}/${src}`;
 
-    if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    if (video.canPlayType("application/vnd.apple.mpegurl")) {
       video.src = videoSrc;
-      video.addEventListener('loadeddata', () => {
-        setIsLoaded(true);
-        if (onLoadedData) onLoadedData();
-      }, { once: true });
+      video.addEventListener(
+        "loadeddata",
+        () => {
+          setIsLoaded(true);
+          if (onLoadedData) onLoadedData();
+        },
+        { once: true }
+      );
     } else if (Hls.isSupported()) {
       const hls = new Hls({
         enableWorker: false,
@@ -63,23 +68,26 @@ const HLSVideoPlayer = ({ src, className, onLoadedData, ...props }) => {
         maxBufferLength: 30,
         maxMaxBufferLength: 600,
         capLevelToPlayerSize: false,
-        // autoStartLoad: false
       });
-      
+
       hlsRef.current = hls;
       hls.loadSource(videoSrc);
       hls.attachMedia(video);
-      
+
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         const levels = hls.levels;
-        let targetLevel = levels.findIndex(level => level.height === 1080 || level.height === 720);
-        
+        let targetLevel = levels.findIndex(
+          (level) => level.height === 1080 || level.height === 720
+        );
+
         if (targetLevel === -1) {
-          targetLevel = levels.reduce((best, level, idx) => 
-            level.height <= 1080 && level.height > levels[best].height ? idx : best
-          , 0);
+          targetLevel = levels.reduce(
+            (best, level, idx) =>
+              level.height <= 1080 && level.height > levels[best].height ? idx : best,
+            0
+          );
         }
-        
+
         hls.currentLevel = targetLevel;
         hls.loadLevel = targetLevel;
         hls.startLoad();
@@ -106,16 +114,20 @@ const HLSVideoPlayer = ({ src, className, onLoadedData, ...props }) => {
       });
     } else {
       video.src = videoSrc;
-      video.addEventListener('loadeddata', () => {
-        setIsLoaded(true);
-        if (onLoadedData) onLoadedData();
-      }, { once: true });
+      video.addEventListener(
+        "loadeddata",
+        () => {
+          setIsLoaded(true);
+          if (onLoadedData) onLoadedData();
+        },
+        { once: true }
+      );
     }
   }, [src, onLoadedData]);
 
   useEffect(() => {
     initializeVideo();
-    
+
     return () => {
       if (hlsRef.current) {
         hlsRef.current.destroy();
@@ -127,7 +139,9 @@ const HLSVideoPlayer = ({ src, className, onLoadedData, ...props }) => {
   return (
     <video
       ref={videoRef}
-      className={`${className} transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+      className={`${className} transition-opacity duration-500 ${
+        isLoaded ? "opacity-100" : "opacity-0"
+      }`}
       autoPlay
       muted
       loop
@@ -140,9 +154,15 @@ const HLSVideoPlayer = ({ src, className, onLoadedData, ...props }) => {
 const Cinematography = () => {
   const [mediaMap, setMediaMap] = useState({});
   const [loading, setLoading] = useState(true);
-  
+  const [isNavigating, setIsNavigating] = useState(false);
+
   const router = useRouter();
+  const pathname = usePathname();
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  useEffect(() => {
+    setIsNavigating(false);
+  }, [pathname]);
 
   useEffect(() => {
     const fetchMedia = async () => {
@@ -156,16 +176,16 @@ const Cinematography = () => {
         const response = await axios.get(`${API_URL}/api/cinematography`, {
           timeout: 10000,
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         });
 
         const { data } = response;
         const map = {};
-        
+
         if (Array.isArray(data)) {
-          data.forEach(item => {
-            if (item.location === 'main' && item.category && item.video_hls_path) {
+          data.forEach((item) => {
+            if (item.location === "main" && item.category && item.video_hls_path) {
               map[item.category] = {
                 url: `${process.env.NEXT_PUBLIC_API_URL}/${item.video_hls_path}`,
                 type: getMediaType(item.video_hls_path),
@@ -173,10 +193,10 @@ const Cinematography = () => {
             }
           });
         }
-        
+
         setMediaMap(map);
       } catch (err) {
-        console.error('Error fetching cinematography data:', err);
+        console.error("Error fetching cinematography data:", err);
         setMediaMap({});
       } finally {
         setLoading(false);
@@ -187,24 +207,28 @@ const Cinematography = () => {
   }, [API_URL]);
 
   useEffect(() => {
-    AOS.init({ 
-      duration: 800, 
+    AOS.init({
+      duration: 800,
       once: true,
-      easing: 'ease-out-cubic'
+      easing: "ease-out-cubic",
     });
   }, []);
 
   const handleMediaClick = (index) => {
     const category = categories[index];
-    router.push(serviceLinks[category.key]);
+    const href = serviceLinks[category.key];
+    if (pathname === href) return;
+    setIsNavigating(true);
+    router.push(href);
   };
 
   return (
     <>
+      {isNavigating && <GlobalLoader />}
       <section className="py-20 text-white bg-black min-h-screen" data-aos="fade-in">
         <CinematographyHeader />
-        
-        <MediaGrid 
+
+        <MediaGrid
           categories={categories}
           mediaMap={mediaMap}
           onMediaClick={handleMediaClick}
@@ -214,7 +238,7 @@ const Cinematography = () => {
       </section>
 
       <ScrollingFooter categories={categories} />
-      
+
       <ImageGallery />
     </>
   );

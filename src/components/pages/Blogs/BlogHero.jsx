@@ -9,13 +9,13 @@ const BlogHero = () => {
   return (
     <section className="py-5 px-5 bg-black text-white">
       <div className="text-center mb-4">
-        <Image
+        {/* <Image
           src={KGLogo}
           alt="KG-logo"
           width={150}
           height={150}
           className="mx-auto mb-3 max-[427px]:hidden"
-        />
+        /> */}
         <h1 className="text-left md:text-center text-2xl md:text-4xl font-semibold text-[#FFD755] ">
           BLOGS
         </h1>

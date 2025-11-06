@@ -57,7 +57,7 @@ const Home = () => {
           <Image
             src={thankyou}
             alt="Thank You GIF"
-            className="w-full h-[80vh] object-cover"
+            className="w-full h-[80vh] md:h-auto object-contain md:object-cover"
             unoptimized // GIFs can have issues with optimization, this is a safe flag
           />
         </div>

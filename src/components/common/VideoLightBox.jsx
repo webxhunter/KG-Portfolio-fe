@@ -9,26 +9,35 @@ const VideoLightBox = ({ open, src, onClose, onNext, onPrev, showNav }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const isVideo = /\.(mp4|webm|ogg|mov|m3u8)$/i.test(src || "") || (src && src.includes('hls'));
 
-  const initializeVideo = () => {
-    if (!isVideo || !src || !videoRef.current) return;
+  useEffect(() => {
+    if (!open || !src) return;
+    
+    setIsLoaded(false);
+
+    if (!isVideo) {
+      return;
+    }
 
     const video = videoRef.current;
+    if (!video) return;
+
     const videoSrc = src.startsWith("http") ? src : `${process.env.NEXT_PUBLIC_API_URL}/${src}`;
     const isHlsStream = videoSrc.includes('.m3u8') || videoSrc.includes('hls');
+
+    const handleLoadedData = () => setIsLoaded(true);
 
     if (isHlsStream) {
       if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = videoSrc;
-        video.addEventListener('loadeddata', () => setIsLoaded(true), { once: true });
+        video.addEventListener('loadeddata', handleLoadedData, { once: true });
       } else if (Hls.isSupported()) {
         const hls = new Hls({
           enableWorker: false,
           lowLatencyMode: true,
-          backBufferLength: 90,
-          maxBufferLength: 30,
-          maxMaxBufferLength: 600,
+          backBufferLength: 30,
+          maxBufferLength: 10,
+          maxMaxBufferLength: 60,
           capLevelToPlayerSize: false,
-          // autoStartLoad: false
         });
         
         hlsRef.current = hls;
@@ -49,7 +58,6 @@ const VideoLightBox = ({ open, src, onClose, onNext, onPrev, showNav }) => {
           hls.loadLevel = targetLevel;
           hls.startLoad();
           setIsLoaded(true);
-          video.play().catch(() => {});
         });
 
         hls.on(Hls.Events.ERROR, (event, data) => {
@@ -71,13 +79,22 @@ const VideoLightBox = ({ open, src, onClose, onNext, onPrev, showNav }) => {
       }
     } else {
       video.src = videoSrc;
-      video.addEventListener('loadeddata', () => setIsLoaded(true), { once: true });
+      video.addEventListener('loadeddata', handleLoadedData, { once: true });
     }
-  };
+
+    return () => {
+      if (hlsRef.current) {
+        hlsRef.current.destroy();
+        hlsRef.current = null;
+      }
+      video.removeEventListener('loadeddata', handleLoadedData);
+    };
+  }, [open, src, isVideo]);
 
   useEffect(() => {
+    if (!open) return;
+
     const handleKeydown = (e) => {
-      if (!open) return;
       if (e.key === "Escape") onClose();
       if (e.key === "ArrowLeft" && showNav) onPrev();
       if (e.key === "ArrowRight" && showNav) onNext();
@@ -88,59 +105,23 @@ const VideoLightBox = ({ open, src, onClose, onNext, onPrev, showNav }) => {
   }, [open, showNav, onClose, onNext, onPrev]);
 
   useEffect(() => {
-    if (open && src) {
-      setIsLoaded(false);
-      if (isVideo) {
-        initializeVideo();
-      } else {
-        setIsLoaded(true);
-      }
-    }
-
-    return () => {
-      if (hlsRef.current) {
-        hlsRef.current.destroy();
-        hlsRef.current = null;
-      }
-    };
-  }, [open, src, isVideo]);
-
-  useEffect(() => {
-    if (open && isVideo && src && videoRef.current && isLoaded) {
+    if (open && isVideo && videoRef.current && isLoaded) {
       videoRef.current.onended = onNext;
     }
-  }, [open, src, isVideo, onNext, isLoaded]);
+  }, [open, isVideo, onNext, isLoaded]);
 
   return (
-    <Dialog open={open} onOpenChange={onClose} className="max-w-[95vw] max-h-[95vh] xl:max-w-[80vw]">
+    <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-black/95 border-none">
-        <div className="relative flex items-center justify-center h-full min-h-[50vh] md:min-h-[70vh] lg:max-w-[70vw] xl:max-w-[80vw]">
+        <div className="relative flex items-center justify-center h-full min-h-[50vh] md:min-h-[70vh]">
           {showNav && (
             <button
               className="absolute left-4 z-10 text-white text-4xl hover:text-gray-300 transition-colors"
               onClick={onPrev}
+              aria-label="Previous"
             >
               ‹
             </button>
-          )}
-
-          {isVideo ? (
-            <video
-              ref={videoRef}
-              controls
-              loop
-              autoPlay
-              playsInline
-              muted
-              className={`max-w-[65vw] md:max-w-full max-h-[65vh] transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-            />
-          ) : (
-            <img
-              src={src}
-              alt=""
-              className="max-w-[45vw] max-h-[65vh] object-contain"
-              onLoad={() => setIsLoaded(true)}
-            />
           )}
 
           {!isLoaded && (
@@ -149,10 +130,31 @@ const VideoLightBox = ({ open, src, onClose, onNext, onPrev, showNav }) => {
             </div>
           )}
 
+          {isVideo ? (
+            <video
+              ref={videoRef}
+              controls
+              autoPlay
+              loop
+              playsInline
+              preload="metadata"
+              muted
+              className={`max-w-[65vw] md:max-w-full max-h-[65vh] transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+            />
+          ) : (
+            <img
+              src={src}
+              alt=""
+              className={`max-w-[45vw] max-h-[65vh] object-contain transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+              onLoad={() => setIsLoaded(true)}
+            />
+          )}
+
           {showNav && (
             <button
               className="absolute right-4 z-10 text-white text-4xl hover:text-gray-300 transition-colors"
               onClick={onNext}
+              aria-label="Next"
             >
               ›
             </button>

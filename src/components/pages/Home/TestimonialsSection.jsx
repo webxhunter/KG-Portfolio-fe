@@ -1,12 +1,12 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation,Scrollbar,A11y } from "swiper/modules";
+import { Autoplay, Pagination, Navigation, Scrollbar, A11y } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import Image from "next/image";
 import instaicon from "@/Assets/Home/insta-icon-kg.png";
-import cardBg from "@/Assets/Home/home-card-design.png"; // Assuming you have this background image
+import cardBg from "@/Assets/Home/home-card-design.png";
 
 const TestimonialCard = ({ testimonial }) => {
   return (
@@ -17,18 +17,16 @@ const TestimonialCard = ({ testimonial }) => {
         backgroundColor: "#0E0E10",
       }}
     >
-      <div className="absolute top-4 right-4">
-        {testimonial.instagram_link && (
-          <a
-            href={testimonial.instagram_link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-black rounded-full p-1 block"
-          >
-            <Image src={instaicon} alt="Instagram" width={40} height={40} />
-          </a>
-        )}
-      </div>
+      {testimonial.instagram_link && (
+        <a
+          href={testimonial.instagram_link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute top-4 right-4 bg-black rounded-full p-1 block"
+        >
+          <Image src={instaicon} alt="Instagram" width={40} height={40} />
+        </a>
+      )}
       <div className="flex-grow mt-8">
         <h5 className="text-lg sm:text-xl font-semibold text-white">
           {testimonial.client_name}
@@ -48,59 +46,50 @@ const TestimonialCard = ({ testimonial }) => {
 };
 
 const TestimonialsSection = ({ testimonials }) => {
+  const [shuffledTestimonials, setShuffledTestimonials] = useState(testimonials);
+  const hasShuffled = useRef(false);
+
+  useEffect(() => {
+
+    if (!hasShuffled.current && testimonials.length > 0 ) {
+      const seed = Math.floor(Math.random() * testimonials.length) + 1;
+      const shuffled = [...testimonials].sort((a, b) => {
+        const aHash = (a.id * seed) % testimonials.length;
+        const bHash = (b.id * seed) % testimonials.length;
+        return aHash - bHash;
+      });
+      setShuffledTestimonials(shuffled);
+      hasShuffled.current = true;
+    }
+  }, [testimonials]);
+
   return (
-    <section
-      className="text-white py-12 bg-black"
-      id="testimonials"
-      data-aos="fade-up"
-    >
+    <section className="text-white py-12 bg-black" id="testimonials" data-aos="fade-up">
       <div className="container mx-auto px-4">
-        <h6
-          className="text-sm md:text-base text-gray-400 mb-2"
-          data-aos="fade-up"
-          data-aos-delay="200"
-        >
+        <h6 className="text-sm md:text-base text-gray-400 mb-2" data-aos="fade-up" data-aos-delay="200">
           TESTIMONIALS
         </h6>
-        <h2
-          className="text-3xl sm:text-5xl font-semibold uppercase mb-8 sm:mb-12"
-          data-aos="fade-up"
-          data-aos-delay="300"
-        >
+        <h2 className="text-3xl sm:text-5xl font-semibold uppercase mb-8 sm:mb-12" data-aos="fade-up" data-aos-delay="300">
           What My Clients Say
         </h2>
-        <hr
-          className="border-gray-700 mb-8"
-          data-aos="fade-up"
-          data-aos-delay="400"
-        />
+        <hr className="border-gray-700 mb-8" data-aos="fade-up" data-aos-delay="400" />
 
         <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {testimonials.map((testimonial, index) => (
-            <div
-              key={testimonial.id || index}
-              data-aos="fade-up"
-              data-aos-delay={500 + index * 100}
-            >
+          {shuffledTestimonials.map((testimonial, index) => (
+            <div key={testimonial.id || index} data-aos="fade-up" data-aos-delay={500 + index * 100}>
               <TestimonialCard testimonial={testimonial} />
             </div>
           ))}
         </div>
 
-        <div
-          className="md:hidden relative"
-          data-aos="fade-up"
-          data-aos-delay="500"
-        >
+        <div className="md:hidden relative" data-aos="fade-up" data-aos-delay="500">
           <Swiper
-            modules={[Navigation, Pagination, Scrollbar, A11y,Autoplay]}
+            modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
             autoplay={{ delay: 15000, disableOnInteraction: false }}
             pagination={{
               clickable: true,
-              bulletClass:
-                "swiper-pagination-bullet !bg-gray-600 !w-3 !h-3 !mx-1 !opacity-60 hover:!opacity-100 transition-opacity duration-200",
-              bulletActiveClass:
-                "swiper-pagination-bullet-active !bg-yellow-400 !opacity-100",
+              bulletClass: "swiper-pagination-bullet !bg-gray-600 !w-3 !h-3 !mx-1 !opacity-60 hover:!opacity-100 transition-opacity duration-200",
+              bulletActiveClass: "swiper-pagination-bullet-active !bg-yellow-400 !opacity-100",
             }}
             spaceBetween={20}
             slidesPerView={1}
@@ -115,7 +104,7 @@ const TestimonialsSection = ({ testimonials }) => {
             }}
             className="!pb-12"
           >
-            {testimonials.map((testimonial, index) => (
+            {shuffledTestimonials.map((testimonial, index) => (
               <SwiperSlide key={testimonial.id || index}>
                 <TestimonialCard testimonial={testimonial} />
               </SwiperSlide>
@@ -130,12 +119,10 @@ const TestimonialsSection = ({ testimonials }) => {
           margin-top: 2rem !important;
           bottom: auto !important;
         }
-
         .swiper-pagination-bullet {
           border-radius: 50% !important;
           cursor: pointer !important;
         }
-
         .swiper-pagination-bullet:hover {
           transform: scale(1.1);
         }
