@@ -8,6 +8,7 @@ const MediaCard = ({ category, src, isVideo, index, gridClasses, onClick }) => {
   const hlsRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  console.log(isVideo, src);
   const initializeVideo = useCallback(() => {
     if (!isVideo || !src) return;
     

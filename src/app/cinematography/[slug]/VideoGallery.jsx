@@ -2,13 +2,13 @@ import { useState, useCallback } from "react";
 import AdaptiveGallery from "@/components/common/AdaptiveGallery";
 import VideoLightBox from "@/components/common/VideoLightBox";
 
-const VideoGallery = ({ videos = [] }) => {
+const VideoGallery = ({ videos = [], isVideo = false }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleItemClick = useCallback((src, index) => {
-    setSelectedItem(src);
     setCurrentIndex(index);
+    setSelectedItem(src);
   }, []);
 
   const handleClose = useCallback(() => {
@@ -27,13 +27,20 @@ const VideoGallery = ({ videos = [] }) => {
     setSelectedItem(videos[prevIndex]);
   }, [currentIndex, videos]);
 
+  const videoSrc = selectedItem?.startsWith("http")
+    ? selectedItem
+    : selectedItem
+    ? `${process.env.NEXT_PUBLIC_API_URL}/${selectedItem}`
+    : null;
+
   return (
     <>
       <AdaptiveGallery content={videos} onItemClick={handleItemClick} />
       <VideoLightBox
-        open={!!selectedItem}
-        src={selectedItem}
+        open={!!videoSrc}
+        src={videoSrc}
         onClose={handleClose}
+        isVideo={isVideo}
         onNext={handleNext}
         onPrev={handlePrev}
         showNav={videos.length > 1}

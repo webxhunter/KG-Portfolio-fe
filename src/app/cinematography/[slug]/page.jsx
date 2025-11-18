@@ -68,7 +68,7 @@ export default function SelfInitiatedVideoPage() {
           title={`${convertToTitleCase(slug)} Stories`}
           containerClass="my-12 -mx-4 sm:-mx-8 md:-mx-12 lg:-mx-16"
         />
-        <VideoGallery videos={videos} />
+        <VideoGallery videos={videos} isVideo={true}/>
       </section>
       <ScrollingFooter />
       <ImageCollage />
