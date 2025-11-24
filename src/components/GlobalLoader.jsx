@@ -65,10 +65,12 @@ export default function GlobalLoader() {
         </div>
 
         <div className="relative mb-4">
-          <img 
+        <img 
             src="/KG-logo.png" 
             alt="KG-logo" 
             className="h-16 w-auto"
+            loading="eager"
+            fetchPriority="high"
           />
         </div>
 
