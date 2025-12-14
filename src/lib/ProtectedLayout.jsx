@@ -106,6 +106,8 @@ function ProtectedRoute({ children }) {
         '/cinematography/revel-rhythm',
         '/cinematography/frame-worthy',
         '/about-me',
+        '/models',
+        '/events',
         '/blogs'
       ];
       

@@ -15,8 +15,8 @@ export const categories = [
   { key: "Brand in Frame", label: "Brand in Frame", col: 4, url: "/brand-in-frame" },
   { key: "Self Initiated Stories", label: "Self Initiated Stories", col: 4, url: "/self-initiated" },
   { key: "Couple", label: "Couple", col: 6, url: "/together-forever" },
-  { key: "Models", label: "Models", col: 6, url: "/revel-rhythm" },
-  { key: "Events", label: "Events", col: 12, url: "/frame-worthy" },
+  { key: "Models", label: "Models", col: 6, url: "/models" },
+  { key: "Events", label: "Events", col: 12, url: "/events" },
 ];
 
 const Photography = () => {

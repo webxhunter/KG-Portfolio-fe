@@ -36,10 +36,12 @@ const menuItems = {
   gallery: [
     { href: "/admin/dashboard/gallery/self-initiated", label: "SELF INITIATED STORIES" },
     { href: "/admin/dashboard/gallery/together-forever", label: "WEDDING" },
-    { href: "/admin/dashboard/gallery/revel-rhythm", label: "REVEL & RHYTHM" },
+    // { href: "/admin/dashboard/gallery/revel-rhythm", label: "REVEL & RHYTHM" },
     { href: "/admin/dashboard/gallery/taste-meet-frames", label: "TASTE MEET FRAMES" },
     { href: "/admin/dashboard/gallery/brand-in-frame", label: "BRAND IN FRAME" },
-    { href: "/admin/dashboard/gallery/frame-worthy", label: "FRAME WORTHY" }
+    // { href: "/admin/dashboard/gallery/frame-worthy", label: "FRAME WORTHY" },
+    { href: "/admin/dashboard/gallery/models", label: "MODELS" },
+    { href: "/admin/dashboard/gallery/events", label: "EVENTS" }
   ],
   videoGallery: [
     { href: "/admin/dashboard/videoGallery/self-initiated", label: "SELF INITIATED STORIES" },

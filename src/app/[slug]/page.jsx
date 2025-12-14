@@ -64,6 +64,8 @@ export default function BrandInFramePage() {
     fetchMedia();
   }, [slug]);
 
+  console.log(hero);
+
   return (
     <div className="bg-black text-white min-h-screen">
       <section

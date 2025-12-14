@@ -1,28 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    unoptimized: true,
+    unoptimized: true, // fixes Sharp / memory crash
   },
-  video: {
-    unoptimized: true,
-  },
-  experimental: {
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
-  },
+
   webpack: (config) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
       fs: false,
-    }
-    return config
+    };
+    return config;
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;
