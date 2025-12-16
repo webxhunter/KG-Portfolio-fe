@@ -1,20 +1,9 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import 'aos/dist/aos.css';
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import RootLayoutContent from "@/lib/ProtectedLayout"
 import AOSInitializer from "@/components/AOSInitializer";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata = {
   title: "Shots by KG | Professional Photography & Cinematography",
@@ -73,7 +62,7 @@ export default function RootLayout({ children }) {
       <script src="https://cdn.jsdelivr.net/npm/hls.js@latest" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white overflow-x-hidden`}
+        className="antialiased bg-black text-white overflow-x-hidden"
       >
         <AOSInitializer />
         <RootLayoutContent>{children}</RootLayoutContent>
