@@ -2,8 +2,8 @@
 
 import React from 'react';
 import Image from 'next/image';
-import BlogImg1 from '@/Assets/Blog/Blog-story-telling.png';
-import BlogImg2 from '@/Assets/Blog/blog-Cinemato-vs-phot.jpg';
+import BlogImg1 from '@/Assets/Blog/StoryTelling.PNG';
+import BlogImg2 from '@/Assets/Blog/cinaVsPho.JPEG';
 import PhotoCineHeading from '@/Assets/Blog/blog-3-heading.png';
 
 const BlogSection = ({ type = 'storytelling' }) => {

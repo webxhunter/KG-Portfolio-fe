@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import KGLogo from '@/Assets/Home/KG-logo.png';
-import BlogHeroBg from '@/Assets/Blog/blog-color-gradient.jpg';
+import BlogHeroBg from '@/Assets/Blog/Gradient.JPG';
 
 const BlogHero = () => {
   return (
@@ -22,7 +22,7 @@ const BlogHero = () => {
       </div>
 
       <div 
-        className="bg-cover bg-center bg-no-repeat h-[75vh] max-[427px]:h-[5  0vh] flex items-end justify-center text-center p-8 w-screen -ml-[50vw] left-1/2 relative"
+        className="bg-cover bg-center bg-no-repeat h-[90vh] max-[427px]:h-[70vh] flex items-end justify-center text-center p-8 w-screen -ml-[50vw] left-1/2 relative"
         style={{ backgroundImage: `url(${BlogHeroBg.src})` }}
       >
         <div>
