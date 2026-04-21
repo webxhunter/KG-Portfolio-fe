@@ -43,7 +43,7 @@ const menuItems = {
     { href: "/admin/dashboard/gallery/models", label: "MODELS" },
     { href: "/admin/dashboard/gallery/events", label: "EVENTS" }
   ],
-  videoGallery: [
+  cinematographyGallery: [
     { href: "/admin/dashboard/videoGallery/self-initiated", label: "SELF INITIATED STORIES" },
     { href: "/admin/dashboard/videoGallery/together-forever", label: "WEDDING" },
     { href: "/admin/dashboard/videoGallery/revel-rhythm", label: "REVEL & RHYTHM" },
@@ -130,8 +130,8 @@ export default function Sidebar() {
         </div>
 
         <div>
-          <MenuButton menu="videoGallery" icon={Video} label="Video Gallery" />
-          <SubMenu items={menuItems.videoGallery} menu="videoGallery" />
+          <MenuButton menu="cinematographyGallery" icon={Video} label="Cinematography Gallery" />
+          <SubMenu items={menuItems.cinematographyGallery} menu="cinematographyGallery" />
         </div>
 
         <Link

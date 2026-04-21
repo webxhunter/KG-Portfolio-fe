@@ -49,11 +49,11 @@ export default function BrandInFramePage() {
 
         const heroItem = res.data.find(
           (item) =>
-            item.location === "hero" && item.category === slug && item.video_hls_path
+            item.location === "hero" && item.category === slug && item.image_url
         );
 
         setVideos(galleryMedia);
-        setHero(heroItem ? `${API_URL}/${heroItem.video_hls_path}` : null);
+        setHero(heroItem ? `${API_URL}/uploads/${heroItem.image_url}` : null);
       }
     } catch (e) {
       console.error("Error fetching media:", e);

@@ -1,109 +1,40 @@
 "use client";
-import React, { useRef, useEffect, useCallback, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Hls from "hls.js";
 import logo from "@/Assets/Home/KG-logo.png";
 import instaicon from "@/Assets/Home/insta-icon-kg.png";
 
 const HeroSection = ({ heroVideo }) => {
-  const videoRef = useRef(null);
-  const hlsRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const initializeVideo = useCallback(() => {
-    const video = videoRef.current;
-    if (!video || !heroVideo?.video_hls_path) return;
+  if (!heroVideo?.image_url) return null;
 
-    const videoSrc = heroVideo.video_hls_path.startsWith("http")
-      ? heroVideo.video_hls_path
-      : `${process.env.NEXT_PUBLIC_API_URL}/${heroVideo.video_hls_path}`;
-
-    if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = videoSrc;
-      video.addEventListener('loadeddata', () => setIsLoaded(true), { once: true });
-    } else if (Hls.isSupported()) {
-      const hls = new Hls({
-        enableWorker: false,
-        lowLatencyMode: true,
-        backBufferLength: 90,
-        maxBufferLength: 30,
-        maxMaxBufferLength: 600,
-        capLevelToPlayerSize: false,
-        // autoStartLoad: false
-      });
-      
-      hlsRef.current = hls;
-      hls.loadSource(videoSrc);
-      hls.attachMedia(video);
-      
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        const levels = hls.levels;
-        let targetLevel = levels.findIndex(level => level.height === 1080 || level.height === 720);
-        
-        if (targetLevel === -1) {
-          targetLevel = levels.reduce((best, level, index) => 
-            level.height <= 1080 && level.height > levels[best].height ? index : best
-          , 0);
-        }
-        
-        hls.currentLevel = targetLevel;
-        hls.loadLevel = targetLevel;
-        hls.startLoad();
-        setIsLoaded(true);
-        video.play().catch(() => {});
-      });
-
-      hls.on(Hls.Events.ERROR, (event, data) => {
-        if (data.fatal) {
-          switch (data.type) {
-            case Hls.ErrorTypes.NETWORK_ERROR:
-              hls.startLoad();
-              break;
-            case Hls.ErrorTypes.MEDIA_ERROR:
-              hls.recoverMediaError();
-              break;
-            default:
-              hls.destroy();
-              hlsRef.current = null;
-              break;
-          }
-        }
-      });
-    } else {
-      video.src = videoSrc;
-      video.addEventListener('loadeddata', () => setIsLoaded(true), { once: true });
-    }
-  }, [heroVideo?.video_hls_path]);
-
-  useEffect(() => {
-    initializeVideo();
-    
-    return () => {
-      if (hlsRef.current) {
-        hlsRef.current.destroy();
-        hlsRef.current = null;
-      }
-    };
-  }, [initializeVideo]);
-
-  if (!heroVideo?.video_hls_path) return null;
+  const mediaUrl = heroVideo.image_url.startsWith("http")
+    ? heroVideo.image_url
+    : `${process.env.NEXT_PUBLIC_API_URL}/${heroVideo.image_url}`;
 
   return (
     <section data-aos="fade-in">
       <div className="container mx-auto px-4 pt-12">
         <div className="relative flex flex-col items-center justify-center sm:justify-start sm:flex-row sm:items-center text-white min-h-[calc(100vh-120px)]">
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            loop
-            playsInline
-            className={`absolute inset-0 w-full h-full object-cover rounded-3xl md:rounded-[50px] transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+
+          {/* ── Hero image ── */}
+          <Image
+            src={mediaUrl}
+            alt={heroVideo.description ?? "Hero background"}
+            fill
+            priority
+            className={`absolute inset-0 w-full h-full object-cover rounded-3xl md:rounded-[50px] transition-opacity duration-500 ${
+              isLoaded ? "opacity-100" : "opacity-0"
+            }`}
+            onLoad={() => setIsLoaded(true)}
           />
 
+          {/* ── Overlay ── */}
           <div className="absolute inset-0 bg-black/70 rounded-3xl md:rounded-[50px]" />
 
+          {/* ── Scroll CTA ── */}
           <div
             className="absolute bottom-0 right-0 text-gray-400 bg-black px-3 py-2 rounded-tl-xl z-20 text-xs sm:text-sm sm:px-5 sm:py-4 sm:rounded-tl-2xl"
             data-aos="fade-up"
@@ -114,6 +45,7 @@ const HeroSection = ({ heroVideo }) => {
             ME A MESSAGE
           </div>
 
+          {/* ── Text + CTA ── */}
           <div
             className="relative z-20 p-2 md:p-5 max-w-xl text-left md:ml-16"
             data-aos="fade-right"
@@ -126,7 +58,7 @@ const HeroSection = ({ heroVideo }) => {
               <p className="text-base font-light text-gray-300 mb-3 md:mb-6 sm:text-xl">
                 {heroVideo.description}
               </p>
-              <Link 
+              <Link
                 href="/#contact"
                 className="inline-flex items-center gap-3 px-6 py-2 text-sm md:px-7 md:py-3 md:text-base rounded-full bg-gradient-to-br from-gray-800 to-black text-gray-300 font-normal transition-all duration-300 hover:from-gray-700 hover:to-gray-900 hover:text-white"
               >
@@ -143,6 +75,7 @@ const HeroSection = ({ heroVideo }) => {
             </div>
           </div>
 
+          {/* ── Instagram link ── */}
           <Link
             href="https://www.instagram.com/_shotsbykg?igsh=MTd4NWg1d3FqdGR6Ng=="
             target="_blank"

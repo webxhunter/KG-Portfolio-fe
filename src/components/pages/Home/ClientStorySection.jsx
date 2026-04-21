@@ -1,98 +1,27 @@
 "use client";
-import React, { useRef, useEffect, useCallback, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import Hls from "hls.js";
-import clientImg2 from "@/Assets/Home/home-clientstory-img-2.png";
+import Link from "next/link";
 import storyPattern from "@/Assets/Home/home-clientstory-bgborder.png";
+import instaicon from "@/Assets/Home/insta-icon-kg.png";
 
 const ClientStorySection = ({ clientVideo }) => {
-  const videoRef = useRef(null);
-  const hlsRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const initializeVideo = useCallback(() => {
-    const video = videoRef.current;
-    if (!video || !clientVideo?.url) return;
-
-    const videoSrc = clientVideo.url.startsWith("http")
-      ? clientVideo.url
-      : `${process.env.NEXT_PUBLIC_API_URL}${clientVideo.url}`;
-
-    if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = videoSrc;
-      video.addEventListener('loadeddata', () => setIsLoaded(true), { once: true });
-    } else if (Hls.isSupported()) {
-      const hls = new Hls({
-        enableWorker: false,
-        lowLatencyMode: true,
-        backBufferLength: 90,
-        maxBufferLength: 30,
-        maxMaxBufferLength: 600,
-        capLevelToPlayerSize: false,
-      });
-      
-      hlsRef.current = hls;
-      hls.loadSource(videoSrc);
-      hls.attachMedia(video);
-      
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        const levels = hls.levels;
-        let targetLevel = levels.findIndex(level => level.height === 1080 || level.height === 720);
-        
-        if (targetLevel === -1) {
-          targetLevel = levels.reduce((best, level, index) => 
-            level.height <= 1080 && level.height > levels[best].height ? index : best
-          , 0);
-        }
-        
-        hls.currentLevel = targetLevel;
-        hls.loadLevel = targetLevel;
-        hls.startLoad();
-        setIsLoaded(true);
-        video.play().catch(() => {});
-      });
-
-      hls.on(Hls.Events.ERROR, (event, data) => {
-        if (data.fatal) {
-          switch (data.type) {
-            case Hls.ErrorTypes.NETWORK_ERROR:
-              hls.startLoad();
-              break;
-            case Hls.ErrorTypes.MEDIA_ERROR:
-              hls.recoverMediaError();
-              break;
-            default:
-              hls.destroy();
-              hlsRef.current = null;
-              break;
-          }
-        }
-      });
-    } else {
-      video.src = videoSrc;
-      video.addEventListener('loadeddata', () => setIsLoaded(true), { once: true });
-    }
-  }, [clientVideo?.url]);
-
-  useEffect(() => {
-    initializeVideo();
-    
-    return () => {
-      if (hlsRef.current) {
-        hlsRef.current.destroy();
-        hlsRef.current = null;
-      }
-    };
-  }, [initializeVideo]);
+  const imageUrl = clientVideo?.image_url
+    ? clientVideo.image_url.startsWith("http")
+      ? clientVideo.image_url
+      : `${process.env.NEXT_PUBLIC_API_URL}${clientVideo.image_url}`
+    : null;
 
   return (
     <section className="py-8 bg-black text-white overflow-hidden" data-aos="fade-up">
-    
-    <div className="w-full pb-4 my-2 md:my-4" data-aos="fade-up">
+
+      <div className="w-full pb-4 my-2 md:my-4" data-aos="fade-up">
         <Image src={storyPattern} alt="Decorative pattern" className="w-full h-auto" width={1920} height={100} />
       </div>
 
-      <div className=" mx-auto px-4">
+      <div className="mx-auto px-4">
         <h6 className="text-sm md:text-base text-gray-400 mb-2" data-aos="fade-up" data-aos-delay="200">
           STORY
         </h6>
@@ -101,30 +30,48 @@ const ClientStorySection = ({ clientVideo }) => {
         </h2>
         <hr className="border-gray-700 mb-8" data-aos="fade-up" data-aos-delay="400" />
 
-        <div className="rounded-2xl overflow-hidden" data-aos="fade-up" data-aos-delay="400">
-          {clientVideo?.url ? (
-            <video
-              ref={videoRef}
-              className={`w-full h-[40vh] sm:h-[70vh] object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-              autoPlay
-              loop
-              muted
-              playsInline
+        {/* ── Image + Instagram capsule ── */}
+        <div className="rounded-2xl overflow-hidden relative w-full h-[40vh] sm:h-[70vh]" data-aos="fade-up" data-aos-delay="400">
+          {imageUrl ? (
+            <Image
+              src={imageUrl}
+              alt="Client story"
+              fill
+              priority
+              className={`object-cover transition-opacity duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+              onLoad={() => setIsLoaded(true)}
             />
           ) : (
-            <div className="w-full h-[40vh] sm:h-[70vh] flex items-center justify-center bg-gray-900">
-              <p>No client video available.</p>
+            <div className="w-full h-full flex items-center justify-center bg-gray-900">
+              <p>No client story image available.</p>
             </div>
           )}
+
+          {/* ── Instagram capsule ── */}
+          <Link
+            href="https://www.instagram.com/_shotsbykg?igsh=MTd4NWg1d3FqdGR6Ng=="
+            target="_blank"
+            rel="noopener noreferrer"
+            data-aos="fade-left"
+            data-aos-delay="500"
+            className="absolute bottom-4 right-0 z-20 flex items-center gap-3 bg-black/80 backdrop-blur-sm pl-4 pr-6 py-3 rounded-l-full shadow-lg hover:bg-black transition-all duration-300 hover:scale-105 group"
+          >
+            <Image
+              src={instaicon}
+              alt="Instagram"
+              className="w-12 h-12 sm:w-10 sm:h-10"
+            />
+            <span className="text-white text-sm font-medium tracking-wide group-hover:text-gray-300 transition-colors">
+              See My Work
+            </span>
+          </Link>
         </div>
       </div>
-
-     
- 
 
       <div className="w-full my-2 md:my-4 pt-4" data-aos="fade-up">
         <Image src={storyPattern} alt="Decorative pattern" className="w-full h-auto" width={1920} height={100} />
       </div>
+
     </section>
   );
 };
