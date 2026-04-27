@@ -125,26 +125,11 @@ const Header = () => {
                   </button>
                 </li>
                 <li
-                  className="relative"
-                  onMouseEnter={() => setIsServicesOpen(true)}
-                  onMouseLeave={() => setIsServicesOpen(false)}
+                
                 >
-                  <button className="flex items-center w-full px-8 py-5 text-white text-base font-medium hover:bg-gray-800 transition-colors">
-                    Services
-                    <svg className={`ml-2 w-4 h-4 transition-transform ${isServicesOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
+                  <button onClick={() => handleNavigation("/photography")} className="block px-8 py-5 text-white text-base font-medium hover:bg-gray-800 transition-colors">
+                  Services
                   </button>
-                  {isServicesOpen && (
-                    <div className="absolute top-full left-0 w-48 bg-gray-900 border border-gray-600 rounded-lg shadow-2xl z-50">
-                      <button onClick={() => handleNavigation("/photography")} className="block w-full text-left px-6 py-3 text-white hover:bg-gray-800 border-b border-gray-600 rounded-t-lg">
-                        Photography
-                      </button>
-                      <button onClick={() => handleNavigation("/cinematography")} className="block w-full text-left px-6 py-3 text-white hover:bg-gray-800 rounded-b-lg">
-                        Cinematography
-                      </button>
-                    </div>
-                  )}
                 </li>
               </ul>
               <button onClick={() => handleNavigation("/#contact")} className="bg-[#1C1C21] text-white rounded-lg px-5 py-2 text-base font-medium transition-colors">

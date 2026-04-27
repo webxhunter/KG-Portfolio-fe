@@ -19,7 +19,7 @@ const ImageCard = ({ media, onEdit, onDelete, apiUrl }) => (
     <div className="absolute top-2 left-2">
       <span className="px-2 py-1 bg-black/70 text-xs text-white rounded">Image</span>
     </div>
-    <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+    <div className="absolute top-2 right-2 flex gap-2  transition-opacity">
       <button onClick={() => onEdit(media)} className="p-2 bg-blue-600/80 hover:bg-blue-700 rounded-full text-white" title="Edit image">
         <Edit size={16} />
       </button>

@@ -8,11 +8,11 @@ export const PhotoHero = () => {
   return (
     <div className="container mx-auto text-center mb-20 px-4">
       <h5
-        className="mb-12 text-[#FFD755] text-2xl sm:text-[32px] font-medium tracking-wide"
+        className="mb-12 text-[#FFD755] text-2xl sm:text-[32px] font-medium tracking-wide uppercase "
         data-aos="fade-up"
         data-aos-delay="200"
       >
-        PHOTOGRAPHY
+        Photography & Cinometography
       </h5>
       <div className="relative">
         <div

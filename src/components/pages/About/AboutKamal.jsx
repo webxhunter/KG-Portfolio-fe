@@ -3,10 +3,10 @@ import React from 'react';
 
 const AboutKamal = () => {
   return (
-    <div className="bg-black text-white py-16">
+    <div className="bg-black text-white py-16 ">
       <div className="container mx-auto px-4">
         <hr className="border-gray-700" />
-        <div className="my-12">
+        <div className="my-12 md:max-w-7xl mx-auto">
           <h2 className="text-2xl md:text-4xl font-semibold uppercase text-gray-400 mb-6">
             More Than Just a Guy with a Camera
           </h2>
