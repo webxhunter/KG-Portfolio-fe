@@ -12,7 +12,7 @@ export const PhotoHero = () => {
         data-aos="fade-up"
         data-aos-delay="200"
       >
-        Photography & Cinometography
+        Photography & Cinematography
       </h5>
       <div className="relative">
         <div
