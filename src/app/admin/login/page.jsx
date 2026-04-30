@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import logo from '@/Assets/Home/KG-logo.png';
+import logo from '@/Assets/Home/KG-logo.svg';
 
 export default function AdminLogin() {
   const [phone, setPhone] = useState('');

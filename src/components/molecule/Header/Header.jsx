@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
-import logo from "@/Assets/Home/KG-logo.png";
+import logo from "@/Assets/Home/KG-logo.svg";
 import GlobalLoader from "@/components/GlobalLoader";
 
 const Header = () => {
@@ -155,27 +155,9 @@ const Header = () => {
               <button onClick={() => handleNavigation("/blogs")} className="py-3 px-4 text-left text-white hover:bg-gray-800">
                 Blogs
               </button>
-              <div>
-                <button
-                  className="flex items-center justify-between w-full py-3 px-4 text-white hover:bg-gray-800"
-                  onClick={() => setIsServicesOpen(!isServicesOpen)}
-                >
-                  Services
-                  <svg className={`w-4 h-4 transition-transform ${isServicesOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                {isServicesOpen && (
-                  <div className="bg-gray-950 rounded mt-2">
-                    <button onClick={() => handleNavigation("/photography")} className="block w-full text-left py-2 px-6 text-white text-sm hover:bg-black">
-                      Photography
-                    </button>
-                    <button onClick={() => handleNavigation("/cinematography")} className="block w-full text-left py-2 px-6 text-white text-sm hover:bg-black">
-                      Cinematography
-                    </button>
-                  </div>
-                )}
-              </div>
+              <button onClick={() => handleNavigation("/photography")} className="py-3 px-4 text-left text-white hover:bg-gray-800">
+                Service
+              </button>
               <button onClick={() => handleNavigation("/about-me#contact")} className="py-3 px-4 text-left text-white hover:bg-gray-800">
                 Contact Me
               </button>

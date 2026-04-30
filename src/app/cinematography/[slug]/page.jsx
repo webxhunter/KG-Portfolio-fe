@@ -68,7 +68,6 @@ export default function SelfInitiatedVideoPage() {
   useEffect(() => {
     fetchGallery();
   }, [slug]);
-console.log("hero",hero);
   return (
     <div className="bg-black text-white min-h-screen">
       <section

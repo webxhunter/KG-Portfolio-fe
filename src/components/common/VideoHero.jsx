@@ -6,13 +6,13 @@ export default function ImageHero({ media, defaultVideo, title }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
-  console.log("media", media);
+
 
   const imageSrc = media?.['hero']?.media_type === 'image'
     ? `${process.env.NEXT_PUBLIC_API_URL}${media['hero'].file_path}`
     : defaultVideo;
 
-  console.log("imageSrc", imageSrc);
+ 
 
   const titleParts = title.split(' ');
   const firstWord = titleParts[0] || '';

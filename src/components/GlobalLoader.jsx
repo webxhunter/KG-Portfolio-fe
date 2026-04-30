@@ -66,7 +66,7 @@ export default function GlobalLoader() {
 
         <div className="relative mb-4">
         <img 
-            src="/KG-logo.png" 
+            src="/KG-logo.svg" 
             alt="KG-logo" 
             className="h-16 w-auto"
             loading="eager"

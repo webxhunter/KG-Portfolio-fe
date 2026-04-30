@@ -10,7 +10,7 @@ import {
   Sparkles, Heart, Utensils, Briefcase, User, CalendarDays,
 } from "lucide-react";
 import { ChevronDown } from "lucide-react";
-import logo from "@/Assets/Home/KG-logo.png";
+import logo from "@/Assets/Home/KG-logo.svg";
 
 const menuItems = {
   home: [

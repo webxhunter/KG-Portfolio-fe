@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import logo from "@/Assets/Home/KG-logo.png";
+import logo from "@/Assets/Home/KG-logo.svg";
 import instaicon from "@/Assets/Home/insta-icon-kg.png";
 
 const HeroSection = ({ heroVideo }) => {
