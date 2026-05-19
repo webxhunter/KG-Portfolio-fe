@@ -65,8 +65,8 @@ const BlogContent = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-4 lg:border-l border-[#393939] pt-5">
-            <div className="flex justify-center gap-3 mb-4 pb-4">
+          <div className="lg:col-span-4 lg:border-l border-[#393939] ">
+            {/* <div className="flex justify-center gap-3 mb-4 pb-4">
               <button
                 // onClick={handleLike}
                 className="flex items-center bg-[#141414] border border-[#262626] rounded-full px-4 py-2 text-[#98989A] cursor-pointer hover:bg-[#1a1a1a] transition-colors"
@@ -105,7 +105,7 @@ const BlogContent = () => {
                 />
                 206
               </Link>
-            </div>
+            </div> */}
 
             <hr className="border-[#98989A]" />
 

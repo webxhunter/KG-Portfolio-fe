@@ -18,6 +18,13 @@ const convertToTitleCase = (str) =>
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ") || "";
 
+const slugTitleOverrides = {
+  "revel-rhythm": "Events",
+};
+
+const getPageTitle = (slug) =>
+  slugTitleOverrides[slug] || convertToTitleCase(slug) || "Brand in Frame";
+
 export default function BrandInFramePage() {
   const params = useParams();
   const slug = params.slug;
@@ -75,7 +82,7 @@ export default function BrandInFramePage() {
 
         <VideoHero
           defaultVideo={hero}
-          title={convertToTitleCase(slug) || "Brand in Frame"}
+          title={getPageTitle(slug)}
           containerClass="my-12 -mx-4 sm:-mx-8 md:-mx-12 lg:-mx-16"
         />
 

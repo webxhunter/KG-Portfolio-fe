@@ -8,10 +8,16 @@ const AboutKamal = () => {
         <hr className="border-gray-700" />
         <div className="my-12 md:max-w-7xl mx-auto">
           <h2 className="text-2xl md:text-4xl font-semibold uppercase text-gray-400 mb-6">
-            More Than Just a Guy with a Camera
+          Less perfection. More feeling.
           </h2>
           <p className="text-gray-400 text-sm md:text-base leading-relaxed text-justify">
-            Some shoot for perfection, <span className="text-yellow-400 text-xl md:text-2xl">Kamal</span> shoots for soul. A cinematographer by passion and a photographer by instinct, he believes every frame should feel like a heartbeat. Whether it’s the delicate light of golden hour or the chaos of a candid laugh, he has a sixth sense for finding beauty in the in-between. His work isn’t just visual—it’s visceral. With years of experience behind the lens, he’s learned that the most powerful stories aren’t always staged—they’re felt. That’s why he blends intuition with intention, making every shot deeply personal and honest. From wedding vows whispered under fairy lights to bold brand films and raw portraits, he adapts to every story with empathy and a dash of cinematic flair. If you’re looking for someone who’ll treat your vision like it’s his own (and probably cry during the edit), you’ve just found your guy. He doesn’t just document your moments— he emotionally invests in them, making sure every frame not only looks beautiful but lives forever.
+          Some people chase perfection. I’m more interested in feeling, I’m <span className="text-yellow-400 text-xl md:text-2xl">Kamal Goswami ( KG )</span> a self-taught cinematographer and photographer. I’ve always been drawn to the in-between moments… the light just before sunset, the unplanned laugh, the quiet details most people overlook.
+
+Over the years, I’ve learned that the strongest visuals aren’t forced , they happen when you’re present and paying attention. That’s how I approach every shoot. Whether it’s a wedding, a brand film, or a portrait, I try to understand the story first, then capture it in a way that feels honest.
+
+I care about how things look, of course , but more than that, I care about how they feel when you come back to them later.
+
+If you’re someone who values real moments over perfect ones, we’ll probably get along just fine
           </p>
         </div>
         <hr className="border-gray-700" />

@@ -6,7 +6,7 @@ import { Upload, FileText, Video, ImageIcon, Check, X, Play, AlertCircle } from 
 const defaultTitles = {
   self_initiated_stories: "SELF INITIATED STORIES",
   wedding: "WEDDING", 
-  revel_rhythm: "REVEL & RHYTHM",
+  revel_rhythm: "EVENTS",
   food: "FOOD",
   brand_in_frame: "BRAND IN FRAME",
   frame_worthy: "FRAME WORTHY",
@@ -27,7 +27,7 @@ const OurService = () => {
   const serviceOption = [
     "SELF INITIATED STORIES",
     "WEDDING",
-    "REVEL & RHYTHM",
+    "EVENTS",
     "FOOD",
     "BRAND IN FRAME",
     "FRAME WORTHY",

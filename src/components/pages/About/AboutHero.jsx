@@ -8,28 +8,23 @@ const AboutHero = ({ about, loading }) => {
 
   const stats = [
     {
-      label: "Happy Clients",
-      value: about?.happy_clients || "500",
-      prefix: "+",
+      label: "Repeat clients" ,
+      value: about?.happy_clients || "95",
+      prefix: "%",
     },
     {
-      label: "Photography Awards",
-      value: about?.photography_awards || "10",
+      label: "Moments",
+      value: about?.photography_awards || "1,50,000",
       hideOnMobile: true,
       prefix: "+",
     },
     {
-      label: "Social Media Followers",
-      value: about?.social_media_followers || "10k",
-      mobileLabel: "Followers",
+      label: "Love Stories",
+      value: about?.social_media_followers || "200",
+      mobileLabel: true,
       prefix: "+",
     },
-    {
-      label: "Client Retention Rate",
-      value: about?.client_retention_rate || "90",
-      prefix: "%",
-      mobileLabel: "CRR",
-    },
+   
   ];
 
   if (!heroImage) {
@@ -116,7 +111,7 @@ const AboutHero = ({ about, loading }) => {
 
       </div>
         <div className="-mt-1 bg-black p-4  hidden md:block md:p-6   rounded-br-3xl md:rounded-tr-3xl md:max-w-7xl mx-auto">
-            <div className="grid grid-cols-3 gap-4 lg:grid-cols-4">
+            <div className="grid grid-cols-3 gap-4 ">
               {stats.map((stat, index) => (
                 <div
                   key={index}
