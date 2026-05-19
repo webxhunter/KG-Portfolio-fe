@@ -21,7 +21,7 @@ const AboutHero = ({ about, loading }) => {
     {
       label: "Love Stories",
       value: about?.social_media_followers || "200",
-      mobileLabel: true,
+     
       prefix: "+",
     },
    
