@@ -15,7 +15,7 @@ const AboutHero = ({ about, loading }) => {
     {
       label: "Moments",
       value: about?.photography_awards || "1,50,000",
-      hideOnMobile: true,
+      // hideOnMobile: true,
       prefix: "+",
     },
     {
