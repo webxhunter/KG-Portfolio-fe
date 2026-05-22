@@ -32,7 +32,7 @@ export const PhotoHero = () => {
           data-aos="fade-up"
           data-aos-delay="400"
         >
-          Framing stories one click at a time
+          Every Moment Has a Story to Tell.
         </h2>
       </div>
       <p
@@ -40,9 +40,8 @@ export const PhotoHero = () => {
         data-aos="fade-up"
         data-aos-delay="500"
       >
-        Every frame is a feeling, every click a chapter. From vows to vibrant
-        meals, from brands to <br className="hidden sm:inline" />
-        beautiful glances—we capture what words can't express.
+        From love and people to celebrations and memories ,I capture moments the way they’re felt, <br className="hidden sm:inline" />
+        not just the way they look.
       </p>
 
       <div data-aos="fade-up" data-aos-delay="600">
