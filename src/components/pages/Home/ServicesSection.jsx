@@ -21,7 +21,7 @@ const defaultImages = {
 const serviceLinks = {
   self_initiated_stories: "/self-initiated",
   wedding: "/together-forever",
-  revel_rhythm: "/revel-rhythm",
+  revel_rhythm: "/events",
   food: "/taste-meet-frames",
   brand_in_frame: "/brand-in-frame",
   frame_worthy: "/models",
