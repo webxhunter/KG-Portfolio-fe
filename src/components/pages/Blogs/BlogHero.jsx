@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import KGLogo from '@/Assets/Home/KG-logo.svg';
-import BlogHeroBg from '@/Assets/Blog/Gradient.JPG';
+import BlogHeroBg from '@/Assets/Blog/Gradient_1.jpg';
 
 const BlogHero = () => {
   return (

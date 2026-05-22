@@ -24,7 +24,7 @@ const serviceLinks = {
   revel_rhythm: "/revel-rhythm",
   food: "/taste-meet-frames",
   brand_in_frame: "/brand-in-frame",
-  frame_worthy: "/frame-worthy",
+  frame_worthy: "/models",
 };
 
 const serviceTitles = {
@@ -33,7 +33,7 @@ const serviceTitles = {
   revel_rhythm: "EVENTS",
   food: "FOOD",
   brand_in_frame: "BRAND IN FRAME",
-  frame_worthy: "FRAME WORTHY",
+  frame_worthy: "MODELS",
 };
 
 const ServiceItem = ({ service, className = "" }) => {

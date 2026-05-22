@@ -22,7 +22,7 @@ const menuItems = {
   ],
   gallery: [
     { href: "/admin/dashboard/gallery/self-initiated", label: "Self Initiated Stories", icon: Sparkles },
-    { href: "/admin/dashboard/gallery/together-forever", label: "Wedding", icon: Heart },
+    { href: "/admin/dashboard/gallery/together-forever", label: "Couple", icon: Heart },
     { href: "/admin/dashboard/gallery/taste-meet-frames", label: "Taste Meet Frames", icon: Utensils },
     { href: "/admin/dashboard/gallery/brand-in-frame", label: "Brand In Frame", icon: Briefcase },
     { href: "/admin/dashboard/gallery/models", label: "Models", icon: User },
