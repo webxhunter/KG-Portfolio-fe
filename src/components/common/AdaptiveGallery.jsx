@@ -7,6 +7,16 @@ const AdaptiveGallery = ({ content, onItemClick }) => {
   const videoRefs = useRef({});
   const hlsRefs = useRef({});
   const [loadedItems, setLoadedItems] = useState(new Set());
+ 
+  const markLoaded = useCallback((index) => {
+    setLoadedItems(prev => {
+      if (prev.has(index)) return prev;
+      const next = new Set(prev);
+      next.add(index);
+      return next;
+    });
+  }, []);
+
   const getLayoutClasses = (n, index) => {
     if (n >= 10) {
       if (index < 10) {
@@ -89,52 +99,51 @@ const AdaptiveGallery = ({ content, onItemClick }) => {
       default: return "md:col-span-3 md:row-span-6 md:h-[60vh]";
     }
   };
-  const isVideo = (src) => /\.(mp4|webm|ogg|mov|m3u8)$/i.test(src) || src.includes('hls');
 
+
+   const isVideo = (src) => /\.(mp4|webm|ogg|mov|m3u8)$/i.test(src) || src.includes('hls');
+ 
   const initializeVideo = useCallback((src, index) => {
     const video = videoRefs.current[index];
     if (!video || !src) return;
-
+ 
     const videoSrc = src.startsWith("http") ? src : `${process.env.NEXT_PUBLIC_API_URL}/${src}`;
     const isHlsStream = videoSrc.includes('.m3u8') || videoSrc.includes('hls');
-
+ 
     if (isHlsStream) {
       if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = videoSrc;
-        video.addEventListener('loadeddata', () => {
-          setLoadedItems(prev => new Set(prev).add(index));
-        }, { once: true });
+        video.addEventListener('loadeddata', () => markLoaded(index), { once: true });
       } else if (Hls.isSupported()) {
         const hls = new Hls({
-          enableWorker: false,
+          enableWorker: true,
           lowLatencyMode: true,
           backBufferLength: 30,
           maxBufferLength: 10,
           maxMaxBufferLength: 60,
-          capLevelToPlayerSize: false,
-          // autoStartLoad: false
+          capLevelToPlayerSize: true,
         });
-        
+ 
         hlsRefs.current[index] = hls;
         hls.loadSource(videoSrc);
         hls.attachMedia(video);
-        
+ 
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
           const levels = hls.levels;
           let targetLevel = levels.findIndex(level => level.height === 1080 || level.height === 720);
-          
+ 
           if (targetLevel === -1) {
-            targetLevel = levels.reduce((best, level, idx) => 
+            targetLevel = levels.reduce((best, level, idx) =>
               level.height <= 1080 && level.height > levels[best].height ? idx : best
             , 0);
           }
-          
+ 
           hls.currentLevel = targetLevel;
           hls.loadLevel = targetLevel;
           hls.startLoad();
-          setLoadedItems(prev => new Set(prev).add(index));
+          markLoaded(index);
         });
-
+ 
         hls.on(Hls.Events.ERROR, (event, data) => {
           if (data.fatal) {
             switch (data.type) {
@@ -154,19 +163,17 @@ const AdaptiveGallery = ({ content, onItemClick }) => {
       }
     } else {
       video.src = videoSrc;
-      video.addEventListener('loadeddata', () => {
-        setLoadedItems(prev => new Set(prev).add(index));
-      }, { once: true });
+      video.addEventListener('loadeddata', () => markLoaded(index), { once: true });
     }
-  }, []);
-
+  }, [markLoaded]);
+ 
   useEffect(() => {
     content.forEach((src, index) => {
       if (isVideo(src) && videoRefs.current[index]) {
         initializeVideo(src, index);
       }
     });
-
+ 
     return () => {
       Object.values(hlsRefs.current).forEach(hls => {
         if (hls) hls.destroy();
@@ -174,39 +181,42 @@ const AdaptiveGallery = ({ content, onItemClick }) => {
       hlsRefs.current = {};
     };
   }, [content, initializeVideo]);
+ 
 
   return (
     <div className="w-full p-4">
-      <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-24 gap-2">
-        {content.map((src, index) => (
-          <div
-            key={index}
-            className={`cursor-pointer overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105 ${getLayoutClasses(content.length, index)}`}
-            onClick={() => onItemClick(src, index)}
-          >
-            {isVideo(src) ? (
-              <video
-                ref={el => videoRefs.current[index] = el}
-                className={`w-full h-full object-cover transition-opacity duration-500 ${loadedItems.has(index) ? 'opacity-100' : 'opacity-0'}`}
-                preload="metadata"
-                autoPlay
-                loop
-                muted
-                playsInline
-              />
-            ) : (
-              <img
-                src={src}
-                alt=""
-                className="w-full h-full object-cover"
-                loading="lazy"
-                onLoad={() => setLoadedItems(prev => new Set(prev).add(index))}
-              />
-            )}
-          </div>
-        ))}
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-24 gap-2">
+      {content.map((src, index) => (
+        <div
+          key={index}
+          className={`cursor-pointer overflow-hidden rounded-lg transition-transform duration-300 hover:scale-105 ${getLayoutClasses(content.length, index)}`}
+          onClick={() => onItemClick(src, index)}
+        >
+          {isVideo(src) ? (
+            <video
+              ref={el => videoRefs.current[index] = el}
+              className={`w-full h-full object-cover transition-opacity duration-500 ${loadedItems.has(index) ? 'opacity-100' : 'opacity-0'}`}
+              preload="metadata"
+              autoPlay
+              loop
+              muted
+              playsInline
+            />
+          ) : (
+            <img
+              src={src}
+              alt=""
+              className={`w-full h-full object-cover transition-opacity duration-500 ${loadedItems.has(index) ? 'opacity-100' : 'opacity-0'}`}
+              loading={index < 4 ? "eager" : "lazy"}
+              fetchPriority={index < 2 ? "high" : "auto"}
+              decoding="async"
+              onLoad={() => markLoaded(index)}
+            />
+          )}
+        </div>
+      ))}
     </div>
+  </div>
   );
 };
 

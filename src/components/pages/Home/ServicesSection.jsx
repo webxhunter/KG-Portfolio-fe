@@ -54,15 +54,19 @@ const ServiceItem = ({ service, className = "" }) => {
         />
       ) : (
         <Image
-          src={
-            service.media_url
-              ? `${process.env.NEXT_PUBLIC_API_URL}${service.media_url}`
-              : defaultImages[service.name]
-          }
-          alt={serviceTitles[service.name]}
-          fill
-          className="object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
-        />
+    src={
+      service.media_url
+        ? `${process.env.NEXT_PUBLIC_API_URL}${service.media_url}`
+        : defaultImages[service.name]
+    }
+    alt={serviceTitles[service.name]}
+    fill
+    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+    loading="lazy"
+    quality={75}
+    placeholder={service.media_url ? "empty" : "blur"}
+    className="object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
+  />
       )}
       
       <Link

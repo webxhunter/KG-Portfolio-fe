@@ -46,7 +46,7 @@ const PhotoCard = ({ category, src, index, gridClasses, onClick }) => {
           onClick={(e) => e.stopPropagation()}
           className="absolute top-4 right-0 z-20 flex items-center gap-2 bg-black/80 backdrop-blur-sm pl-3 pr-5 py-2 rounded-l-full shadow-lg transition-all duration-300 hover:bg-black hover:scale-105"
         >
-          <Image src={instaicon} alt="Instagram" className="w-6 h-6" />
+          <Image src={instaicon} alt="Instagram" className="w-6 h-6" loading="lazy" />
           <span className="text-white text-xs font-medium tracking-wide">See My Work</span>
         </Link>
       </div>

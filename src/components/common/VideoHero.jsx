@@ -6,13 +6,9 @@ export default function ImageHero({ media, defaultVideo, title }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
-
-
   const imageSrc = media?.['hero']?.media_type === 'image'
     ? `${process.env.NEXT_PUBLIC_API_URL}${media['hero'].file_path}`
     : defaultVideo;
-
- 
 
   const titleParts = title.split(' ');
   const firstWord = titleParts[0] || '';
@@ -22,7 +18,6 @@ export default function ImageHero({ media, defaultVideo, title }) {
     <div className="container mx-auto my-12 px-4" data-aos="fade-up" data-aos-delay="100">
       <div className="relative text-white overflow-hidden rounded-2xl shadow-2xl h-[60vh] max-h-[650px]">
 
-        {/* Skeleton */}
         {!isLoaded && !hasError && (
           <div className="absolute inset-0 bg-slate-800 animate-pulse rounded-2xl" />
         )}
@@ -33,13 +28,12 @@ export default function ImageHero({ media, defaultVideo, title }) {
             alt={title}
             fill
             priority
-            sizes="100vw"
+            fetchPriority="high"
+            sizes="(max-width: 768px) 100vw, 1280px"
+            quality={70}
             className={`object-cover transition-opacity duration-500 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
             onLoad={() => setIsLoaded(true)}
-            onError={() => {
-              console.error("Image failed to load:", imageSrc);
-              setHasError(true);
-            }}
+            onError={() => setHasError(true)}
           />
         ) : hasError ? (
           <div className="absolute inset-0 bg-slate-700 flex items-center justify-center text-slate-400 text-sm">

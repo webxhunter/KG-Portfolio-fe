@@ -1,7 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    unoptimized: true, // fixes Sharp / memory crash
+    remotePatterns: [
+      { protocol: "https", hostname: "www.shotsbykg.com" },
+      { protocol: "https", hostname: "YOUR_API_HOST" }, // ← NEXT_PUBLIC_API_URL host
+    ],
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 2678400, // 31 days
   },
 
   webpack: (config) => {
